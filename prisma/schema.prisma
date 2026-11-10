@@ -101,3 +101,10 @@ model Investment {
   createdAt       DateTime @default(now())
   user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
 }
+
+model WaitlistEntry {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  source    String?
+  createdAt DateTime @default(now())
+}

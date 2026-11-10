@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -8,8 +7,11 @@ import {
   Shield,
   Rocket,
   Clock,
+  Sparkles,
 } from "lucide-react";
 import { PRODUCTS } from "@/lib/products";
+import { Waitlist } from "@/components/waitlist";
+import { InspiredBy } from "@/components/inspired-by";
 
 export default function Home() {
   const featured = PRODUCTS.filter((p) => p.featured).slice(0, 3);
@@ -23,18 +25,14 @@ export default function Home() {
       >
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.08),transparent_60%)]" />
         <div className="relative z-10 max-w-5xl">
-          <Image
-            src="/logo.jpeg"
-            alt="JB Software"
-            width={1408}
-            height={768}
-            priority
-            className="mx-auto h-auto w-full max-w-xl rounded-3xl border border-white/10 shadow-[0_0_80px_rgba(255,255,255,0.08)]"
-          />
-          <p className="mt-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs uppercase tracking-[0.2em] text-zinc-300">
-            <Clock size={13} className="text-amber-400" />
-            Coming soon
-          </p>
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <p className="inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/10 px-4 py-1.5 text-xs uppercase tracking-[0.2em] text-amber-300">
+              <Clock size={13} /> Coming soon
+            </p>
+            <p className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs uppercase tracking-[0.2em] text-zinc-300">
+              <Sparkles size={13} /> Built on first principles
+            </p>
+          </div>
           <h1 className="mt-6 text-5xl md:text-7xl font-semibold tracking-tight leading-[1.05]">
             Software that gets out of your way.
           </h1>
@@ -145,6 +143,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Launch list */}
+      <Waitlist source="home" />
+
       {/* Investments preview */}
       <section className="py-24 px-6 border-t border-white/5 bg-gradient-to-b from-black to-zinc-950">
         <div className="mx-auto max-w-4xl text-center">
@@ -166,6 +167,9 @@ export default function Home() {
           </Link>
         </div>
       </section>
+
+      {/* Tribute */}
+      <InspiredBy />
     </div>
   );
 }

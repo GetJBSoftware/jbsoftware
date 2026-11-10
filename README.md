@@ -5,14 +5,17 @@ Tesla-inspired marketing site for getjbsoftware.com.
 
 ## Features
 
-- Hero/intro landing page with the JB Software logo
+- Hero/intro landing page (logo lives in the navbar and footer)
 - `/downloads` — roadmap of upcoming free and paid tools (marked "coming soon")
+- Launch list — email capture stored in `WaitlistEntry`
 - `/investments` — one-time contributions via Stripe
 - Email/password sign-up and sign-in, plus optional Google sign-in
 - Paid software is a one-time purchase; download anywhere after login
 - `/account` — purchases and investments
 - `/contact` — contact page with a Gmail compose form
 - `/privacy` and `/terms` — legal pages
+- `/inspired` section — tribute to first-principles engineering
+- `robots.txt`, `sitemap.xml`, Open Graph image and a styled 404
 - Stripe webhook unlocks paid downloads
 
 ## Getting started

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { CONTACT_EMAIL, SITE } from "@/lib/site";
 
@@ -6,8 +7,17 @@ export function Footer() {
     <footer className="border-t border-white/5 bg-black">
       <div className="mx-auto max-w-7xl px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
         <div className="col-span-2 md:col-span-1">
-          <div className="font-semibold">JB Software</div>
-          <p className="mt-2 text-zinc-500 max-w-xs">
+          <Link href="/" className="inline-flex items-center gap-2.5 font-semibold">
+            <Image
+              src="/logo-mark.png"
+              alt=""
+              width={588}
+              height={418}
+              className="h-9 w-auto rounded-md"
+            />
+            <span>JB Software</span>
+          </Link>
+          <p className="mt-3 text-zinc-500 max-w-xs">
             Fast, focused desktop software. Built with care, shipped with pride.
           </p>
           <a
@@ -48,8 +58,13 @@ export function Footer() {
           </ul>
         </div>
       </div>
-      <div className="border-t border-white/5 py-6 text-center text-xs text-zinc-600">
-        © {new Date().getFullYear()} JB Software. All rights reserved.
+      <div className="border-t border-white/5 py-6">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-6 text-xs text-zinc-600 sm:flex-row">
+          <p>© {new Date().getFullYear()} JB Software. All rights reserved.</p>
+          <Link href="/#inspired" className="hover:text-zinc-300">
+            Inspired by Elon Musk
+          </Link>
+        </div>
       </div>
     </footer>
   );

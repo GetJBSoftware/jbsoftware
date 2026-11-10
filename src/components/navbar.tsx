@@ -1,6 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { User, LogOut, Menu, X } from "lucide-react";
 import { useState } from "react";
@@ -15,20 +17,45 @@ const nav = [
 export function Navbar() {
   const { data: session, status } = useSession();
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  function isActive(href: string) {
+    if (href.startsWith("/#")) return pathname === "/";
+    return pathname === href || pathname.startsWith(`${href}/`);
+  }
 
   return (
     <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-black/40 border-b border-white/5">
       <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight">
-          <span className="inline-block h-6 w-6 rounded-md bg-white text-black grid place-items-center text-xs font-bold">
-            JB
-          </span>
+        <Link
+          href="/"
+          aria-label="JB Software — home"
+          className="flex items-center gap-2.5 font-semibold tracking-tight"
+        >
+          <Image
+            src="/logo-mark.png"
+            alt=""
+            width={588}
+            height={418}
+            priority
+            className="h-10 w-auto rounded-lg"
+          />
           <span>JB Software</span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-8 text-sm text-zinc-300">
+        <nav
+          aria-label="Main"
+          className="hidden md:flex items-center gap-8 text-sm text-zinc-300"
+        >
           {nav.map((n) => (
-            <Link key={n.href} href={n.href} className="hover:text-white transition">
+            <Link
+              key={n.href}
+              href={n.href}
+              aria-current={isActive(n.href) ? "page" : undefined}
+              className={`transition hover:text-white ${
+                isActive(n.href) ? "text-white" : ""
+              }`}
+            >
               {n.label}
             </Link>
           ))}

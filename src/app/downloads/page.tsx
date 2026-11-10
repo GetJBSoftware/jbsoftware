@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { PRODUCTS } from "@/lib/products";
 import { DownloadGrid } from "@/components/download-grid";
 import { Clock } from "lucide-react";
+import { Waitlist } from "@/components/waitlist";
 
 export const dynamic = "force-dynamic";
 
@@ -38,7 +39,7 @@ export default async function DownloadsPage() {
         </div>
       </section>
 
-      <section className="px-6 pb-24">
+      <section className="px-6 pb-20">
         <div className="mx-auto max-w-7xl">
           <DownloadGrid
             products={PRODUCTS}
@@ -47,6 +48,8 @@ export default async function DownloadsPage() {
           />
         </div>
       </section>
+
+      <Waitlist source="downloads" />
     </div>
   );
 }

@@ -31,6 +31,11 @@ export default function PrivacyPage() {
             currency, status and the Stripe session identifier.
           </li>
           <li>
+            <strong>Launch list.</strong> If you ask us to notify you when our
+            tools launch, we store your email address and the page you signed up
+            from until we send that email or you ask us to remove it.
+          </li>
+          <li>
             <strong>Contact messages.</strong> If you contact us, we receive the
             name, email address and message you choose to send.
           </li>
