@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# JB Software
 
-## Getting Started
+Next.js (App Router) + Tailwind + Auth.js (Google) + Stripe + Prisma/PostgreSQL.
+Tesla-inspired marketing site for getjbsoftware.com.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Hero/intro landing page
+- `/downloads` — free and paid software, GitHub release links
+- `/investments` — one-time contributions via Stripe
+- Google sign-in / sign-up
+- Paid software is a one-time purchase; download anywhere after login
+- `/account` — purchases and investments
+- Stripe webhook unlocks paid downloads
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Getting started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Install dependencies
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   ```bash
+   npm install
+   ```
 
-## Learn More
+2. Create `.env.local` (see `.env.example`) and fill in:
 
-To learn more about Next.js, take a look at the following resources:
+   - `DATABASE_URL` — PostgreSQL (Neon/Supabase/Vercel Postgres)
+   - `AUTH_SECRET` — `openssl rand -base64 32`
+   - `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET`
+   - `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Database
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   npx prisma migrate dev --name init
+   npm run seed
+   ```
 
-## Deploy on Vercel
+4. Run
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   npm run dev
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Google OAuth
+
+Create OAuth credentials in Google Cloud Console and add
+`http://localhost:3000/api/auth/callback/google` (and your production URL) as
+authorized redirect URIs.
+
+## Stripe
+
+- Create a webhook endpoint pointing to `https://your-domain.com/api/webhooks/stripe`
+  listening to `checkout.session.completed`.
+- For local testing use the Stripe CLI:
+
+  ```bash
+  stripe listen --forward-to localhost:3000/api/webhooks/stripe
+  ```
+
+## GitHub releases
+
+Update `src/lib/products.ts` (`downloadUrl`, `githubRelease`) with your actual
+GitHub release asset URLs. The download API gates paid products behind a
+completed purchase.
+
+## Deploy (Vercel)
+
+1. Push to GitHub.
+2. Import the repo in Vercel.
+3. Add the environment variables from `.env.example`.
+4. Run `npx prisma migrate deploy` against your production database.
+5. Set the Stripe webhook to your production domain.
