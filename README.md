@@ -67,6 +67,19 @@ completed purchase.
 
 1. Push to GitHub.
 2. Import the repo in Vercel.
-3. Add the environment variables from `.env.example`.
-4. Run `npx prisma migrate deploy` against your production database.
-5. Set the Stripe webhook to your production domain.
+3. Add the environment variables from `.env.example` to Vercel (Production and
+   Preview), including both `DATABASE_URL` (transaction pooler, 6543) and
+   `DIRECT_URL` (session pooler, 5432). Copy both strings from the Supabase
+   **Connect** dialog — the pooler username is `postgres.<project-ref>`.
+4. Apply migrations once against Supabase (from your machine or CI):
+
+   ```bash
+   npm run db:migrate
+   ```
+
+   This uses `DIRECT_URL`. Do not run migrations through the transaction
+   pooler on port 6543.
+5. Keep the Vercel Build Command as the default (`npm run build`). Migrations
+   are intentionally not part of the build so a database hiccup cannot break
+   deployments.
+6. Set the Stripe webhook to your production domain.
