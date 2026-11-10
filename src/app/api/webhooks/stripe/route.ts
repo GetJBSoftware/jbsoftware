@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import type Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
 
@@ -13,12 +14,12 @@ export async function POST(req: Request) {
   let event;
   try {
     event = stripe.webhooks.constructEvent(body, sig, secret);
-  } catch (err) {
+  } catch {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
   if (event.type === "checkout.session.completed") {
-    const session = event.data.object as any;
+    const session = event.data.object as Stripe.Checkout.Session;
     const meta = session.metadata ?? {};
 
     if (meta.type === "product") {

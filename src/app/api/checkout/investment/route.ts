@@ -1,40 +1,68 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { stripe } from "@/lib/stripe";
+import { isStripeConfigured, stripe } from "@/lib/stripe";
+import { getBaseUrl } from "@/lib/url";
 
 export async function POST(req: Request) {
   const session = await auth();
-  const { amount, projectName } = await req.json();
-
-  const cents = Number(amount);
-  if (!Number.isFinite(cents) || cents < 100) {
-    return NextResponse.json({ error: "Minimum investment is $1" }, { status: 400 });
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  if (!isStripeConfigured) {
+    return NextResponse.json(
+      { error: "Payments are not configured yet." },
+      { status: 503 }
+    );
+  }
+
+  const body = await req.json().catch(() => null);
+  const cents = Number(body?.amount);
+  const projectName =
+    typeof body?.projectName === "string" && body.projectName.trim()
+      ? body.projectName.trim().slice(0, 120)
+      : "JB Software roadmap";
+
+  if (!Number.isFinite(cents) || cents < 100) {
+    return NextResponse.json(
+      { error: "Minimum contribution is $1" },
+      { status: 400 }
+    );
+  }
+
+  if (cents > 1_000_000) {
+    return NextResponse.json(
+      { error: "Please contact us for contributions above $10,000." },
+      { status: 400 }
+    );
+  }
+
+  const baseUrl = getBaseUrl(req);
 
   const checkout = await stripe.checkout.sessions.create({
     mode: "payment",
-    ...(session?.user?.email ? { customer_email: session.user.email } : {}),
+    customer_email: session.user.email ?? undefined,
     line_items: [
       {
         price_data: {
           currency: "usd",
           product_data: {
-            name: "Investment in JB Software",
-            description: projectName || "JB Software roadmap",
+            name: "Contribution to JB Software",
+            description: projectName,
           },
-          unit_amount: cents,
+          unit_amount: Math.round(cents),
         },
         quantity: 1,
       },
     ],
     metadata: {
       type: "investment",
-      userId: session?.user?.id ?? "",
-      projectName: projectName || "JB Software roadmap",
-      amount: String(cents),
+      userId: session.user.id,
+      projectName,
+      amount: String(Math.round(cents)),
     },
-    success_url: `${process.env.NEXTAUTH_URL ?? "http://localhost:3000"}/investments?success=1`,
-    cancel_url: `${process.env.NEXTAUTH_URL ?? "http://localhost:3000"}/investments?canceled=1`,
+    success_url: `${baseUrl}/investments?success=1`,
+    cancel_url: `${baseUrl}/investments?canceled=1`,
   });
 
   return NextResponse.json({ url: checkout.url });

@@ -1,14 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useSession, signIn, signOut } from "next-auth/react";
-import { Download, TrendingUp, User, LogOut, Menu, X } from "lucide-react";
+import { useSession, signOut } from "next-auth/react";
+import { User, LogOut, Menu, X } from "lucide-react";
 import { useState } from "react";
 
 const nav = [
   { href: "/#intro", label: "Home" },
   { href: "/downloads", label: "Downloads" },
   { href: "/investments", label: "Investments" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export function Navbar() {
@@ -63,18 +64,18 @@ export function Navbar() {
             </>
           ) : (
             <>
-              <button
-                onClick={() => signIn("google")}
+              <Link
+                href="/signin"
                 className="text-sm text-zinc-300 hover:text-white"
               >
                 Sign in
-              </button>
-              <button
-                onClick={() => signIn("google")}
+              </Link>
+              <Link
+                href="/signup"
                 className="rounded-full bg-white text-black text-sm font-medium px-4 py-2 hover:bg-zinc-200 transition"
               >
                 Get started
-              </button>
+              </Link>
             </>
           )}
         </div>
@@ -114,12 +115,22 @@ export function Navbar() {
                 </button>
               </>
             ) : (
-              <button
-                onClick={() => signIn("google")}
-                className="text-left text-zinc-300 hover:text-white"
-              >
-                Sign in with Google
-              </button>
+              <>
+                <Link
+                  href="/signin"
+                  onClick={() => setOpen(false)}
+                  className="text-zinc-300 hover:text-white"
+                >
+                  Sign in
+                </Link>
+                <Link
+                  href="/signup"
+                  onClick={() => setOpen(false)}
+                  className="text-zinc-300 hover:text-white"
+                >
+                  Create account
+                </Link>
+              </>
             )}
           </div>
         </div>

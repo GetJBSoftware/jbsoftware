@@ -1,13 +1,16 @@
 export type ProductType = "free" | "paid";
+export type ProductStatus = "coming-soon" | "available";
 
 export interface Product {
   slug: string;
   name: string;
   description: string;
   longDescription: string;
-  price: number; // cents
+  /** Price in cents. Kept for the future checkout flow. */
+  price: number;
   currency: string;
   type: ProductType;
+  status: ProductStatus;
   downloadUrl?: string;
   githubRelease?: string;
   image?: string;
@@ -16,20 +19,25 @@ export interface Product {
   platform?: string;
 }
 
+/**
+ * Roadmap products.
+ *
+ * Everything here is still in development. Some tools are planned to be free,
+ * others will be a one-time purchase. Update this list as products get closer
+ * to launch and flip `status` to "available" when a build is ready.
+ */
 export const PRODUCTS: Product[] = [
   {
     slug: "jb-launcher",
     name: "JB Launcher",
     description: "A fast, minimal application launcher for Windows.",
     longDescription:
-      "JB Launcher indexes your apps, files and commands so you can open anything in milliseconds. Built for speed, privacy and zero telemetry.",
+      "Planned: a launcher that indexes your apps, files and commands so you can open anything in milliseconds. Built for speed, privacy and zero telemetry.",
     price: 0,
     currency: "usd",
     type: "free",
-    version: "1.2.0",
+    status: "coming-soon",
     platform: "Windows 10/11",
-    downloadUrl: "https://github.com/your-org/jb-launcher/releases/latest/download/JBLauncher-Setup.exe",
-    githubRelease: "https://github.com/your-org/jb-launcher/releases",
     featured: true,
   },
   {
@@ -37,14 +45,12 @@ export const PRODUCTS: Product[] = [
     name: "JB Optimizer Pro",
     description: "One-click system tuning and cleanup for maximum performance.",
     longDescription:
-      "JB Optimizer Pro removes bloat, tunes services and schedules maintenance. One-time purchase, lifetime updates, no subscription.",
+      "Planned: remove bloat, tune services and schedule maintenance. One-time purchase with lifetime updates — no subscription.",
     price: 1900,
     currency: "usd",
     type: "paid",
-    version: "2.0.1",
+    status: "coming-soon",
     platform: "Windows 10/11",
-    downloadUrl: "https://github.com/your-org/jb-optimizer/releases/latest/download/JBOptimizer-Setup.exe",
-    githubRelease: "https://github.com/your-org/jb-optimizer/releases",
     featured: true,
   },
   {
@@ -52,28 +58,24 @@ export const PRODUCTS: Product[] = [
     name: "JB Backup",
     description: "Encrypted, incremental backups to any cloud or local drive.",
     longDescription:
-      "JB Backup keeps your files safe with end-to-end encryption and smart incremental snapshots. Free for personal use.",
+      "Planned: keep your files safe with end-to-end encryption and smart incremental snapshots. Free for personal use.",
     price: 0,
     currency: "usd",
     type: "free",
-    version: "1.0.4",
+    status: "coming-soon",
     platform: "Windows / macOS",
-    downloadUrl: "https://github.com/your-org/jb-backup/releases/latest/download/JBBackup-Setup.exe",
-    githubRelease: "https://github.com/your-org/jb-backup/releases",
   },
   {
     slug: "jb-studio",
     name: "JB Studio",
     description: "A lightweight creative suite for designers and developers.",
     longDescription:
-      "JB Studio bundles vector editing, color tools and asset management in a single, snappy desktop app. Pay once, use forever.",
+      "Planned: vector editing, color tools and asset management in a single, snappy desktop app. Pay once, use forever.",
     price: 4900,
     currency: "usd",
     type: "paid",
-    version: "3.1.0",
+    status: "coming-soon",
     platform: "Windows / macOS",
-    downloadUrl: "https://github.com/your-org/jb-studio/releases/latest/download/JBStudio-Setup.exe",
-    githubRelease: "https://github.com/your-org/jb-studio/releases",
     featured: true,
   },
 ];

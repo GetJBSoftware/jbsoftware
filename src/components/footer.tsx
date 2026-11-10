@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CONTACT_EMAIL, SITE } from "@/lib/site";
 
 export function Footer() {
   return (
@@ -9,6 +10,12 @@ export function Footer() {
           <p className="mt-2 text-zinc-500 max-w-xs">
             Fast, focused desktop software. Built with care, shipped with pride.
           </p>
+          <a
+            href={`mailto:${CONTACT_EMAIL}`}
+            className="mt-4 inline-block text-zinc-500 hover:text-white"
+          >
+            {CONTACT_EMAIL}
+          </a>
         </div>
         <div>
           <div className="text-zinc-400 font-medium mb-3">Product</div>
@@ -20,15 +27,24 @@ export function Footer() {
         <div>
           <div className="text-zinc-400 font-medium mb-3">Company</div>
           <ul className="space-y-2 text-zinc-500">
-            <li><a href="https://github.com" className="hover:text-white">GitHub</a></li>
-            <li><a href="mailto:hello@getjbsoftware.com" className="hover:text-white">Contact</a></li>
+            <li>
+              <a
+                href={SITE.github}
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-white"
+              >
+                GitHub
+              </a>
+            </li>
+            <li><Link href="/contact" className="hover:text-white">Contact</Link></li>
           </ul>
         </div>
         <div>
           <div className="text-zinc-400 font-medium mb-3">Legal</div>
           <ul className="space-y-2 text-zinc-500">
-            <li><span>Privacy</span></li>
-            <li><span>Terms</span></li>
+            <li><Link href="/privacy" className="hover:text-white">Privacy</Link></li>
+            <li><Link href="/terms" className="hover:text-white">Terms</Link></li>
           </ul>
         </div>
       </div>

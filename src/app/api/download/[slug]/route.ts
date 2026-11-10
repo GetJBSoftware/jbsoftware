@@ -2,15 +2,24 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { getProduct } from "@/lib/products";
+import { getBaseUrl } from "@/lib/url";
 
 export async function GET(
-  _req: Request,
+  req: Request,
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params;
   const product = getProduct(slug);
-  if (!product || !product.downloadUrl) {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
+
+  if (
+    !product ||
+    product.status !== "available" ||
+    !product.downloadUrl
+  ) {
+    return NextResponse.json(
+      { error: "This download is not available yet." },
+      { status: 404 }
+    );
   }
 
   if (product.type === "free") {
@@ -19,26 +28,21 @@ export async function GET(
 
   const session = await auth();
   if (!session?.user?.id) {
-    const url = new URL("/signin", process.env.NEXTAUTH_URL ?? "http://localhost:3000");
-    url.searchParams.set("callbackUrl", `/downloads`);
+    const url = new URL("/signin", getBaseUrl(req));
+    url.searchParams.set("callbackUrl", "/downloads");
     return NextResponse.redirect(url);
   }
 
-  const purchase = await prisma.purchase.findUnique({
-    where: { userId_productId: { userId: session.user.id, productId: slug } },
-  }).catch(() => null);
+  const purchase = await prisma.purchase.findFirst({
+    where: {
+      userId: session.user.id,
+      product: { slug },
+      status: "paid",
+    },
+    select: { id: true },
+  });
 
-  // productId stored as slug? We use slug as productId in purchase? Need align.
-  // We'll instead look up by product slug via relation. Fallback query below.
   if (!purchase) {
-    // try by product relation
-    const p = await prisma.purchase.findFirst({
-      where: { userId: session.user.id, product: { slug }, status: "paid" },
-    });
-    if (!p) {
-      return NextResponse.json({ error: "Purchase required" }, { status: 403 });
-    }
-  } else if (purchase.status !== "paid") {
     return NextResponse.json({ error: "Purchase required" }, { status: 403 });
   }
 

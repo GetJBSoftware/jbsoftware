@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { getProduct } from "@/lib/products";
-import { stripe } from "@/lib/stripe";
+import { isStripeConfigured, stripe } from "@/lib/stripe";
+import { getBaseUrl } from "@/lib/url";
 
 export async function POST(req: Request) {
   const session = await auth();
@@ -10,13 +11,23 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { slug } = await req.json();
-  const product = getProduct(slug);
-  if (!product || product.type !== "paid") {
-    return NextResponse.json({ error: "Invalid product" }, { status: 400 });
+  if (!isStripeConfigured) {
+    return NextResponse.json(
+      { error: "Payments are not configured yet." },
+      { status: 503 }
+    );
   }
 
-  // Ensure product exists in DB
+  const body = await req.json().catch(() => null);
+  const product = getProduct(String(body?.slug ?? ""));
+  if (!product || product.type !== "paid" || product.status !== "available") {
+    return NextResponse.json(
+      { error: "This product is not available yet." },
+      { status: 400 }
+    );
+  }
+
+  // Ensure the product exists in the database before creating the purchase.
   const dbProduct = await prisma.product.upsert({
     where: { slug: product.slug },
     update: {
@@ -26,8 +37,6 @@ export async function POST(req: Request) {
       price: product.price,
       currency: product.currency,
       type: product.type,
-      downloadUrl: product.downloadUrl,
-      githubRelease: product.githubRelease,
       image: product.image,
       featured: product.featured ?? false,
     },
@@ -39,20 +48,24 @@ export async function POST(req: Request) {
       price: product.price,
       currency: product.currency,
       type: product.type,
-      downloadUrl: product.downloadUrl,
-      githubRelease: product.githubRelease,
       image: product.image,
       featured: product.featured ?? false,
     },
   });
 
-  // Already owned?
   const existing = await prisma.purchase.findUnique({
-    where: { userId_productId: { userId: session.user.id, productId: dbProduct.id } },
+    where: {
+      userId_productId: {
+        userId: session.user.id,
+        productId: dbProduct.id,
+      },
+    },
   });
   if (existing?.status === "paid") {
     return NextResponse.json({ error: "Already owned" }, { status: 400 });
   }
+
+  const baseUrl = getBaseUrl(req);
 
   const checkout = await stripe.checkout.sessions.create({
     mode: "payment",
@@ -76,8 +89,8 @@ export async function POST(req: Request) {
       productId: dbProduct.id,
       userId: session.user.id,
     },
-    success_url: `${process.env.NEXTAUTH_URL ?? "http://localhost:3000"}/downloads?success=1`,
-    cancel_url: `${process.env.NEXTAUTH_URL ?? "http://localhost:3000"}/downloads?canceled=1`,
+    success_url: `${baseUrl}/downloads?success=1`,
+    cancel_url: `${baseUrl}/downloads?canceled=1`,
   });
 
   return NextResponse.json({ url: checkout.url });

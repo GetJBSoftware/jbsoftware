@@ -1,5 +1,14 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Download, TrendingUp, Zap, Shield, Rocket } from "lucide-react";
+import {
+  ArrowRight,
+  Download,
+  TrendingUp,
+  Zap,
+  Shield,
+  Rocket,
+  Clock,
+} from "lucide-react";
 import { PRODUCTS } from "@/lib/products";
 
 export default function Home() {
@@ -10,32 +19,42 @@ export default function Home() {
       {/* Hero */}
       <section
         id="intro"
-        className="relative min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center text-center px-6 overflow-hidden"
+        className="relative min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center text-center px-6 py-20 overflow-hidden"
       >
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.08),transparent_60%)]" />
-        <div className="relative z-10 max-w-4xl">
-          <p className="text-sm uppercase tracking-[0.3em] text-zinc-400 mb-6">
-            JB Software
+        <div className="relative z-10 max-w-5xl">
+          <Image
+            src="/logo.jpeg"
+            alt="JB Software"
+            width={1408}
+            height={768}
+            priority
+            className="mx-auto h-auto w-full max-w-xl rounded-3xl border border-white/10 shadow-[0_0_80px_rgba(255,255,255,0.08)]"
+          />
+          <p className="mt-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs uppercase tracking-[0.2em] text-zinc-300">
+            <Clock size={13} className="text-amber-400" />
+            Coming soon
           </p>
-          <h1 className="text-5xl md:text-7xl font-semibold tracking-tight leading-[1.05]">
+          <h1 className="mt-6 text-5xl md:text-7xl font-semibold tracking-tight leading-[1.05]">
             Software that gets out of your way.
           </h1>
           <p className="mt-6 text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto">
-            Fast, focused desktop tools for Windows and macOS. Download for free,
-            or unlock premium power with a single, lifetime payment.
+            We are building fast, focused desktop tools for Windows and macOS.
+            Everything is in development — some tools will be free, others a
+            one-time purchase. No subscriptions.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/downloads"
               className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-black px-8 py-3 font-medium hover:bg-zinc-200 transition"
             >
-              <Download size={18} /> Explore downloads
+              <Download size={18} /> See what&apos;s coming
             </Link>
             <Link
               href="/investments"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-8 py-3 font-medium hover:bg-white/5 transition"
             >
-              <TrendingUp size={18} /> Invest in JB
+              <TrendingUp size={18} /> Back the roadmap
             </Link>
           </div>
         </div>
@@ -60,8 +79,8 @@ export default function Home() {
             },
             {
               icon: Rocket,
-              title: "Lifetime updates",
-              body: "Pay once for premium tools. Free updates forever, no subscriptions.",
+              title: "One-time pricing",
+              body: "Paid tools are planned as a single purchase with lifetime updates.",
             },
           ].map((v) => (
             <div
@@ -85,14 +104,14 @@ export default function Home() {
                 Downloads
               </p>
               <h2 className="mt-2 text-4xl md:text-5xl font-semibold tracking-tight">
-                Our software
+                What we&apos;re building
               </h2>
             </div>
             <Link
               href="/downloads"
               className="hidden md:inline-flex items-center gap-2 text-sm text-zinc-300 hover:text-white"
             >
-              View all <ArrowRight size={16} />
+              View roadmap <ArrowRight size={16} />
             </Link>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
@@ -101,28 +120,24 @@ export default function Home() {
                 key={p.slug}
                 className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 flex flex-col"
               >
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-2">
                   <span className="text-xs uppercase tracking-widest text-zinc-500">
                     {p.platform}
                   </span>
-                  <span
-                    className={`text-xs px-2 py-1 rounded-full ${
-                      p.type === "free"
-                        ? "bg-emerald-500/10 text-emerald-400"
-                        : "bg-amber-500/10 text-amber-400"
-                    }`}
-                  >
-                    {p.type === "free" ? "Free" : `$${(p.price / 100).toFixed(0)}`}
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/10 px-2 py-1 text-xs text-amber-300">
+                    <Clock size={12} /> Coming soon
                   </span>
                 </div>
                 <h3 className="mt-4 text-2xl font-medium">{p.name}</h3>
                 <p className="mt-2 text-zinc-400 flex-1">{p.description}</p>
+                <p className="mt-4 text-xs uppercase tracking-widest text-zinc-500">
+                  {p.type === "free" ? "Planned to be free" : "Planned paid tool"}
+                </p>
                 <Link
                   href="/downloads"
                   className="mt-6 inline-flex items-center gap-2 text-sm font-medium hover:underline"
                 >
-                  {p.type === "free" ? "Download" : "Buy now"}{" "}
-                  <ArrowRight size={14} />
+                  Details <ArrowRight size={14} />
                 </Link>
               </div>
             ))}
@@ -140,7 +155,7 @@ export default function Home() {
             Back the future of JB Software.
           </h2>
           <p className="mt-6 text-lg text-zinc-400">
-            Support our roadmap with a one-time investment. Every contribution
+            Support our roadmap with a one-time contribution. Every contribution
             funds new features, new platforms and better tools for everyone.
           </p>
           <Link

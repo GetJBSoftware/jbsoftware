@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { TrendingUp, Loader2, Heart } from "lucide-react";
+import { TrendingUp, Loader2, Heart, AlertCircle } from "lucide-react";
 
 const tiers = [
   { amount: 1000, label: "$10", desc: "Coffee for the team" },
@@ -11,13 +12,28 @@ const tiers = [
   { amount: 50000, label: "$500", desc: "Champion" },
 ];
 
-export function InvestmentsClient() {
+interface Props {
+  isSignedIn: boolean;
+  paymentsEnabled: boolean;
+}
+
+export function InvestmentsClient({ isSignedIn, paymentsEnabled }: Props) {
   const router = useRouter();
   const [busy, setBusy] = useState<number | null>(null);
   const [custom, setCustom] = useState("");
-  const [project, setProject] = useState("JB Software roadmap");
+  const project = "JB Software roadmap";
 
   async function invest(amount: number) {
+    if (!isSignedIn) {
+      router.push("/signin?callbackUrl=/investments");
+      return;
+    }
+
+    if (!paymentsEnabled) {
+      alert("Payments are not configured yet. Please try again soon.");
+      return;
+    }
+
     setBusy(amount);
     try {
       const res = await fetch("/api/checkout/investment", {
@@ -25,10 +41,15 @@ export function InvestmentsClient() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ amount, projectName: project }),
       });
-      const data = await res.json();
-      if (data.url) window.location.href = data.url;
-      else if (res.status === 401) router.push("/signin?callbackUrl=/investments");
-      else alert(data.error ?? "Checkout failed");
+      const data = await res.json().catch(() => ({}));
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else if (res.status === 401) {
+        router.push("/signin?callbackUrl=/investments");
+      } else {
+        alert(data.error ?? "Checkout failed");
+      }
     } finally {
       setBusy(null);
     }
@@ -36,12 +57,44 @@ export function InvestmentsClient() {
 
   return (
     <div className="space-y-8">
+      {!isSignedIn && (
+        <div className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-5 text-sm text-zinc-400">
+          <AlertCircle size={18} className="mt-0.5 shrink-0 text-zinc-300" />
+          <p>
+            <Link
+              href="/signin?callbackUrl=/investments"
+              className="text-white underline underline-offset-4"
+            >
+              Sign in
+            </Link>{" "}
+            or{" "}
+            <Link
+              href="/signup?callbackUrl=/investments"
+              className="text-white underline underline-offset-4"
+            >
+              create an account
+            </Link>{" "}
+            so your contribution appears in your account.
+          </p>
+        </div>
+      )}
+
+      {!paymentsEnabled && (
+        <div className="flex items-start gap-3 rounded-2xl border border-amber-500/20 bg-amber-500/10 p-5 text-sm text-amber-200">
+          <AlertCircle size={18} className="mt-0.5 shrink-0" />
+          <p>
+            Payments are not configured yet. Add your Stripe keys to enable
+            contributions.
+          </p>
+        </div>
+      )}
+
       <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
         {tiers.map((t) => (
           <button
             key={t.amount}
             onClick={() => invest(t.amount)}
-            disabled={busy !== null}
+            disabled={busy !== null || !paymentsEnabled}
             className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 text-left hover:bg-white/[0.05] transition disabled:opacity-60"
           >
             <div className="text-3xl font-semibold">{t.label}</div>
@@ -75,10 +128,10 @@ export function InvestmentsClient() {
               if (cents >= 100) invest(cents);
               else alert("Minimum investment is $1");
             }}
-            disabled={busy !== null}
+            disabled={busy !== null || !paymentsEnabled}
             className="rounded-full bg-white text-black px-6 py-2.5 font-medium hover:bg-zinc-200 transition disabled:opacity-60 inline-flex items-center gap-2"
           >
-            {busy !== null && busy.toString() === custom ? (
+            {busy !== null ? (
               <Loader2 size={16} className="animate-spin" />
             ) : (
               <TrendingUp size={16} />
@@ -89,8 +142,8 @@ export function InvestmentsClient() {
       </div>
 
       <p className="text-xs text-zinc-500">
-        Payments are processed securely by Stripe. Investments are one-time
-        contributions and are not equity or financial instruments.
+        Payments are processed securely by Stripe. Contributions are one-time
+        and are not equity or financial instruments.
       </p>
     </div>
   );
