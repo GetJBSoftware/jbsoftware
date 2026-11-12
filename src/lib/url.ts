@@ -1,5 +1,5 @@
 /**
- * Returns the public origin for redirects (Stripe success/cancel URLs, login).
+ * Returns the public origin for redirects (checkout success/cancel URLs, login).
  * Prefer an explicit public URL, otherwise derive it from the incoming request
  * so preview deployments and custom domains keep working.
  */

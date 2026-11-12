@@ -10,17 +10,17 @@ export const metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="bg-black text-white min-h-screen">
-      <section className="px-6 pt-20 pb-12">
+    <div className="min-h-screen bg-black text-white">
+      <section className="px-6 pb-12 pt-20">
         <div className="mx-auto max-w-5xl">
           <p className="text-sm uppercase tracking-[0.3em] text-zinc-500">
             Contact
           </p>
-          <h1 className="mt-2 text-4xl md:text-6xl font-semibold tracking-tight">
+          <h1 className="mt-2 text-4xl font-semibold tracking-tight md:text-6xl">
             Let&apos;s talk.
           </h1>
           <p className="mt-4 max-w-2xl text-zinc-400">
-            Questions about the roadmap, a paid tool, an investment or a bug?
+            Questions about the roadmap, a paid tool, a bug or the launch list?
             Send us a message and we&apos;ll get back to you as soon as we can.
           </p>
         </div>
@@ -47,7 +47,7 @@ export default function ContactPage() {
             </a>
 
             <a
-              href={SITE.github}
+              href={SITE.repo}
               target="_blank"
               rel="noreferrer"
               className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-6 transition hover:bg-white/[0.04]"
@@ -58,7 +58,7 @@ export default function ContactPage() {
                   GitHub <ArrowUpRight size={14} />
                 </span>
                 <span className="mt-1 block text-sm text-zinc-400">
-                  Follow the projects and releases.
+                  Follow the projects and report issues.
                 </span>
               </span>
             </a>
@@ -67,13 +67,13 @@ export default function ContactPage() {
               <p className="font-medium text-white">Before you write</p>
               <p className="mt-2">
                 Our tools are still in development, so downloads and purchases
-                are not open yet. You can still{" "}
-                <Link href="/downloads" className="underline hover:text-white">
+                are not open yet. You can{" "}
+                <Link href="/roadmap" className="underline hover:text-white">
                   follow the roadmap
                 </Link>{" "}
                 or{" "}
-                <Link href="/investments" className="underline hover:text-white">
-                  back the project
+                <Link href="/#waitlist" className="underline hover:text-white">
+                  join the launch list
                 </Link>
                 .
               </p>

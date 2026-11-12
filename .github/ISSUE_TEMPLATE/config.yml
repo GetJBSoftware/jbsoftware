@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Email JB Software
+    url: mailto:contact@getjbsoftware.com
+    about: For private questions, account issues or anything you do not want to post publicly.
+  - name: Roadmap
+    url: https://getjbsoftware.com/roadmap
+    about: See what is in progress before opening a feature request.

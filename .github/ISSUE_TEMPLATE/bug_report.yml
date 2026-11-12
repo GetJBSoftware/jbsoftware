@@ -1,0 +1,56 @@
+name: Bug report
+description: Report something that is broken or behaving strangely.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping us ship better software. Do not include passwords,
+        licence keys or other private information.
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Which build are you using?
+      placeholder: v0.1.0
+    validations:
+      required: true
+  - type: input
+    id: system
+    attributes:
+      label: Windows version
+      placeholder: Windows 11 24H2
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Tell us exactly what you did before the problem appeared.
+      placeholder: |
+        1. Open JB Launcher
+        2. Type "fig"
+        3. Press Enter
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What actually happened
+      description: Include the exact error message if there is one.
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Screenshots or extra context
+      description: Drag images or logs here. Remove any personal information first.
+    validations:
+      required: false

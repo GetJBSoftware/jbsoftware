@@ -43,7 +43,7 @@ export function WaitlistForm({ source = "site" }: { source?: string }) {
         <CheckCircle2 size={18} className="mt-0.5 shrink-0" />
         <p>
           You&apos;re on the list. We&apos;ll email you when the first tools are
-          ready.
+          ready — and your 50% launch discount will be waiting.
         </p>
       </div>
     );
@@ -74,7 +74,7 @@ export function WaitlistForm({ source = "site" }: { source?: string }) {
           ) : (
             <Send size={16} />
           )}
-          Notify me
+          Get early access
         </button>
       </div>
 
@@ -86,7 +86,8 @@ export function WaitlistForm({ source = "site" }: { source?: string }) {
       )}
 
       <p className="text-xs text-zinc-500">
-        One email when we launch. No spam, unsubscribe anytime.
+        One email when we launch, plus your 50% discount. No spam, unsubscribe
+        anytime.
       </p>
     </form>
   );

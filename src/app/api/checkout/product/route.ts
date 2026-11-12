@@ -2,20 +2,13 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { getProduct } from "@/lib/products";
-import { isStripeConfigured, stripe } from "@/lib/stripe";
+import { createCheckout, isCheckoutConfigured } from "@/lib/payments";
 import { getBaseUrl } from "@/lib/url";
 
 export async function POST(req: Request) {
   const session = await auth();
-  if (!session?.user?.id || !session.user.email) {
+  if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  if (!isStripeConfigured) {
-    return NextResponse.json(
-      { error: "Payments are not configured yet." },
-      { status: 503 }
-    );
   }
 
   const body = await req.json().catch(() => null);
@@ -24,6 +17,13 @@ export async function POST(req: Request) {
     return NextResponse.json(
       { error: "This product is not available yet." },
       { status: 400 }
+    );
+  }
+
+  if (!isCheckoutConfigured(product)) {
+    return NextResponse.json(
+      { error: "Checkout is not open yet. Join the launch list." },
+      { status: 503 }
     );
   }
 
@@ -65,33 +65,21 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Already owned" }, { status: 400 });
   }
 
-  const baseUrl = getBaseUrl(req);
-
-  const checkout = await stripe.checkout.sessions.create({
-    mode: "payment",
-    customer_email: session.user.email,
-    line_items: [
-      {
-        price_data: {
-          currency: product.currency,
-          product_data: {
-            name: product.name,
-            description: product.description,
-          },
-          unit_amount: product.price,
-        },
-        quantity: 1,
-      },
-    ],
-    metadata: {
-      type: "product",
-      slug: product.slug,
+  try {
+    const url = await createCheckout({
+      product,
       productId: dbProduct.id,
       userId: session.user.id,
-    },
-    success_url: `${baseUrl}/downloads?success=1`,
-    cancel_url: `${baseUrl}/downloads?canceled=1`,
-  });
+      email: session.user.email,
+      baseUrl: getBaseUrl(req),
+    });
 
-  return NextResponse.json({ url: checkout.url });
+    return NextResponse.json({ url });
+  } catch (error) {
+    console.error("Checkout error:", error);
+    return NextResponse.json(
+      { error: "Checkout could not be started. Please try again." },
+      { status: 502 }
+    );
+  }
 }

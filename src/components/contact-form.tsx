@@ -17,20 +17,11 @@ export function ContactForm({ email }: { email: string }) {
     const message = String(data.get("message") ?? "");
 
     const body = `Name: ${name}\nEmail: ${from}\n\n${message}`;
-    const params = new URLSearchParams({
-      view: "cm",
-      fs: "1",
-      to: email,
-      su: `[JB Software] ${subject}`,
-      body,
-    });
 
     setOpened(true);
-    window.open(
-      `https://mail.google.com/mail/?${params.toString()}`,
-      "_blank",
-      "noopener,noreferrer"
-    );
+    window.location.href = `mailto:${email}?subject=${encodeURIComponent(
+      `[JB Software] ${subject}`
+    )}&body=${encodeURIComponent(body)}`;
   }
 
   return (
@@ -88,8 +79,8 @@ export function ContactForm({ email }: { email: string }) {
       </button>
 
       <p className="text-xs text-zinc-500">
-        This opens Gmail with your message ready to send. You can also email us
-        directly at{" "}
+        This opens your email app with the message ready to send. You can also
+        email us directly at{" "}
         <a href={`mailto:${email}`} className="underline hover:text-zinc-300">
           {email}
         </a>
@@ -98,8 +89,8 @@ export function ContactForm({ email }: { email: string }) {
 
       {opened && (
         <p className="inline-flex items-center gap-2 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-300">
-          <Mail size={16} /> Gmail opened in a new tab. Review the message and
-          hit send.
+          <Mail size={16} /> Your email app should be open. Review the message
+          and hit send.
         </p>
       )}
     </form>

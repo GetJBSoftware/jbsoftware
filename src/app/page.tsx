@@ -1,27 +1,28 @@
 import Link from "next/link";
 import {
   ArrowRight,
-  Download,
-  TrendingUp,
-  Zap,
-  Shield,
-  Rocket,
+  Check,
   Clock,
+  Compass,
+  Rocket,
+  Shield,
   Sparkles,
+  Zap,
 } from "lucide-react";
-import { PRODUCTS } from "@/lib/products";
+import { PRODUCTS, formatPrice } from "@/lib/products";
 import { Waitlist } from "@/components/waitlist";
-import { InspiredBy } from "@/components/inspired-by";
+import { LauncherPreview } from "@/components/launcher-preview";
+import { SITE } from "@/lib/site";
 
 export default function Home() {
-  const featured = PRODUCTS.filter((p) => p.featured).slice(0, 3);
+  const featured = PRODUCTS.filter((p) => p.featured).slice(0, 2);
 
   return (
     <div className="bg-black text-white">
       {/* Hero */}
       <section
         id="intro"
-        className="relative min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center text-center px-6 py-20 overflow-hidden"
+        className="relative flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center overflow-hidden px-6 py-20 text-center"
       >
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.08),transparent_60%)]" />
         <div className="relative z-10 max-w-5xl">
@@ -33,37 +34,49 @@ export default function Home() {
               <Sparkles size={13} /> Built on first principles
             </p>
           </div>
-          <h1 className="mt-6 text-5xl md:text-7xl font-semibold tracking-tight leading-[1.05]">
+          <h1 className="mt-6 text-5xl font-semibold leading-[1.05] tracking-tight md:text-7xl">
             Software that gets out of your way.
           </h1>
-          <p className="mt-6 text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto">
-            We are building fast, focused desktop tools for Windows and macOS.
-            Everything is in development — some tools will be free, others a
-            one-time purchase. No subscriptions.
+          <p className="mx-auto mt-6 max-w-2xl text-lg text-zinc-400 md:text-xl">
+            We are building fast, focused desktop tools for Windows. Everything
+            is in development — some tools will be free, others a one-time
+            purchase. No subscriptions.
           </p>
-          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
             <Link
-              href="/downloads"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-black px-8 py-3 font-medium hover:bg-zinc-200 transition"
+              href="#waitlist"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-3 font-medium text-black transition hover:bg-zinc-200"
             >
-              <Download size={18} /> See what&apos;s coming
+              Join the waitlist <ArrowRight size={18} />
             </Link>
             <Link
-              href="/investments"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-8 py-3 font-medium hover:bg-white/5 transition"
+              href="/roadmap"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-8 py-3 font-medium transition hover:bg-white/5"
             >
-              <TrendingUp size={18} /> Back the roadmap
+              <Compass size={18} /> See the roadmap
             </Link>
           </div>
+
+          <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-zinc-500">
+            <li className="inline-flex items-center gap-1.5">
+              <Check size={13} /> Windows 10/11
+            </li>
+            <li className="inline-flex items-center gap-1.5">
+              <Check size={13} /> No subscriptions
+            </li>
+            <li className="inline-flex items-center gap-1.5">
+              <Check size={13} /> No telemetry
+            </li>
+          </ul>
         </div>
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-zinc-500 text-xs tracking-widest">
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-xs tracking-widest text-zinc-500">
           SCROLL
         </div>
       </section>
 
       {/* Value props */}
-      <section className="py-24 px-6 border-t border-white/5">
-        <div className="mx-auto max-w-7xl grid md:grid-cols-3 gap-8">
+      <section className="border-t border-white/5 px-6 py-24">
+        <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-3">
           {[
             {
               icon: Zap,
@@ -78,7 +91,7 @@ export default function Home() {
             {
               icon: Rocket,
               title: "One-time pricing",
-              body: "Paid tools are planned as a single purchase with lifetime updates.",
+              body: "Paid tools are a single purchase with lifetime updates. Never a subscription.",
             },
           ].map((v) => (
             <div
@@ -93,30 +106,37 @@ export default function Home() {
         </div>
       </section>
 
+      <LauncherPreview />
+
       {/* Downloads preview */}
-      <section className="py-24 px-6 border-t border-white/5">
+      <section className="border-t border-white/5 px-6 py-24">
         <div className="mx-auto max-w-7xl">
-          <div className="flex items-end justify-between mb-10">
+          <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-sm uppercase tracking-[0.3em] text-zinc-500">
-                Downloads
+                The first two tools
               </p>
-              <h2 className="mt-2 text-4xl md:text-5xl font-semibold tracking-tight">
-                What we&apos;re building
+              <h2 className="mt-2 text-4xl font-semibold tracking-tight md:text-5xl">
+                Two tools. Zero bloat.
               </h2>
+              <p className="mt-3 max-w-2xl text-zinc-400">
+                A free launcher to make Windows feel instant, and a one-time
+                optimizer for people who want their machine to stay fast.
+              </p>
             </div>
             <Link
               href="/downloads"
-              className="hidden md:inline-flex items-center gap-2 text-sm text-zinc-300 hover:text-white"
+              className="inline-flex items-center gap-2 text-sm text-zinc-300 hover:text-white"
             >
-              View roadmap <ArrowRight size={16} />
+              All downloads <ArrowRight size={16} />
             </Link>
           </div>
-          <div className="grid md:grid-cols-3 gap-6">
+
+          <div className="grid gap-6 md:grid-cols-2">
             {featured.map((p) => (
               <div
                 key={p.slug}
-                className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 flex flex-col"
+                className="flex flex-col rounded-2xl border border-white/10 bg-white/[0.02] p-6 md:p-8"
               >
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-xs uppercase tracking-widest text-zinc-500">
@@ -127,49 +147,59 @@ export default function Home() {
                   </span>
                 </div>
                 <h3 className="mt-4 text-2xl font-medium">{p.name}</h3>
-                <p className="mt-2 text-zinc-400 flex-1">{p.description}</p>
-                <p className="mt-4 text-xs uppercase tracking-widest text-zinc-500">
-                  {p.type === "free" ? "Planned to be free" : "Planned paid tool"}
-                </p>
-                <Link
-                  href="/downloads"
-                  className="mt-6 inline-flex items-center gap-2 text-sm font-medium hover:underline"
-                >
-                  Details <ArrowRight size={14} />
-                </Link>
+                <p className="mt-2 flex-1 text-zinc-400">{p.description}</p>
+
+                <ul className="mt-5 space-y-2 text-sm text-zinc-300">
+                  {p.highlights.slice(0, 3).map((item) => (
+                    <li key={item} className="flex items-start gap-2.5">
+                      <Check size={15} className="mt-0.5 shrink-0 text-emerald-400" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-6 flex items-center justify-between border-t border-white/5 pt-5">
+                  <div>
+                    <p className="text-xs uppercase tracking-widest text-zinc-500">
+                      Planned price
+                    </p>
+                    <p className="mt-1 text-lg font-medium">{formatPrice(p)}</p>
+                  </div>
+                  <Link
+                    href={`/downloads#${p.slug}`}
+                    className="inline-flex items-center gap-2 text-sm font-medium hover:underline"
+                  >
+                    Details <ArrowRight size={14} />
+                  </Link>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Launch list */}
-      <Waitlist source="home" />
-
-      {/* Investments preview */}
-      <section className="py-24 px-6 border-t border-white/5 bg-gradient-to-b from-black to-zinc-950">
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="text-sm uppercase tracking-[0.3em] text-zinc-500">
-            Investments
-          </p>
-          <h2 className="mt-2 text-4xl md:text-6xl font-semibold tracking-tight">
-            Back the future of JB Software.
-          </h2>
-          <p className="mt-6 text-lg text-zinc-400">
-            Support our roadmap with a one-time contribution. Every contribution
-            funds new features, new platforms and better tools for everyone.
-          </p>
-          <Link
-            href="/investments"
-            className="mt-10 inline-flex items-center justify-center gap-2 rounded-full bg-white text-black px-8 py-3 font-medium hover:bg-zinc-200 transition"
+      {/* Build in public */}
+      <section className="px-6 pb-4">
+        <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-6 sm:flex-row sm:items-center">
+          <div>
+            <p className="font-medium">Built in public.</p>
+            <p className="mt-1 text-sm text-zinc-400">
+              Follow progress on the roadmap, report a bug, or request a feature
+              on GitHub.
+            </p>
+          </div>
+          <a
+            href={`${SITE.repo}/issues`}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-2.5 text-sm font-medium transition hover:bg-white/5"
           >
-            <TrendingUp size={18} /> Become an investor
-          </Link>
+            Open GitHub Issues <ArrowRight size={15} />
+          </a>
         </div>
       </section>
 
-      {/* Tribute */}
-      <InspiredBy />
+      <Waitlist source="home" />
     </div>
   );
 }

@@ -1,22 +1,25 @@
 # JB Software
 
-Next.js (App Router) + Tailwind + Auth.js (Google) + Stripe + Prisma/PostgreSQL.
-Tesla-inspired marketing site for getjbsoftware.com.
+Next.js (App Router) + Tailwind + Auth.js + Lemon Squeezy + Prisma/PostgreSQL.
+Marketing site for getjbsoftware.com.
 
 ## Features
 
 - Hero/intro landing page (logo lives in the navbar and footer)
-- `/downloads` — roadmap of upcoming free and paid tools (marked "coming soon")
-- Launch list — email capture stored in `WaitlistEntry`
-- `/investments` — one-time contributions via Stripe
+- Product preview for JB Launcher (concept UI, labelled as a preview)
+- `/downloads` — JB Launcher (free) and JB Optimizer Pro (one-time paid), both
+  marked "coming soon"
+- `/roadmap` — public milestones and changelog
+- `/community` — bug reports and feature requests through GitHub Issues
+- Launch list — email capture stored in `WaitlistEntry`, with a planned 50%
+  launch discount for JB Optimizer Pro
 - Email/password sign-up and sign-in, plus optional Google sign-in
 - Paid software is a one-time purchase; download anywhere after login
-- `/account` — purchases and investments
-- `/contact` — contact page with a Gmail compose form
+- `/account` — purchases
+- `/contact` — contact page with a mailto form
 - `/privacy` and `/terms` — legal pages
-- `/inspired` section — tribute to first-principles engineering
 - `robots.txt`, `sitemap.xml`, Open Graph image and a styled 404
-- Stripe webhook unlocks paid downloads
+- Lemon Squeezy webhook unlocks paid downloads
 
 ## Getting started
 
@@ -30,16 +33,17 @@ Tesla-inspired marketing site for getjbsoftware.com.
 
    - `DATABASE_URL` / `DIRECT_URL` — PostgreSQL (Supabase pooler URLs)
    - `AUTH_SECRET` — `openssl rand -base64 32`
-   - `NEXT_PUBLIC_APP_URL` — public site URL, used for Stripe redirects
+   - `NEXT_PUBLIC_APP_URL` — public site URL, used for checkout redirects
    - `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` — optional; email/password
      sign-up works without them
-   - `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`
+   - `LEMONSQUEEZY_API_KEY`, `LEMONSQUEEZY_STORE_ID`,
+     `LEMONSQUEEZY_VARIANT_JB_OPTIMIZER`, `LEMONSQUEEZY_WEBHOOK_SECRET`
    - `CONTACT_EMAIL` — address shown on the contact page
 
 3. Database
 
    ```bash
-   npx prisma migrate dev --name init
+   npx prisma migrate deploy
    npm run seed
    ```
 
@@ -60,15 +64,23 @@ Cloud Console and add `http://localhost:3000/api/auth/callback/google` (and
 URIs, then set `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`. The Google button
 is hidden automatically when those variables are missing.
 
-## Stripe
+## Payments (Lemon Squeezy)
 
-- Create a webhook endpoint pointing to `https://your-domain.com/api/webhooks/stripe`
-  listening to `checkout.session.completed`.
-- For local testing use the Stripe CLI:
+Lemon Squeezy is the merchant of record, so it handles global sales tax and VAT
+for one-time software sales. To enable checkout:
 
-  ```bash
-  stripe listen --forward-to localhost:3000/api/webhooks/stripe
-  ```
+1. Create a store and a one-time product for JB Optimizer Pro.
+2. Copy the store ID and the variant ID into `LEMONSQUEEZY_STORE_ID` and
+   `LEMONSQUEEZY_VARIANT_JB_OPTIMIZER`.
+3. Create an API key and set `LEMONSQUEEZY_API_KEY`.
+4. Create a webhook pointing to `https://your-domain.com/api/webhooks/lemonsqueezy`
+   with the `order_created` and `order_refunded` events. Set the signing secret
+   as `LEMONSQUEEZY_WEBHOOK_SECRET`.
+5. Set `LEMONSQUEEZY_TEST_MODE=true` while testing, then remove it or set it to
+   `false` for live sales.
+
+Checkout stays disabled (HTTP 503) until the keys and the product variant are
+configured. Products also stay marked `coming-soon` until a real build exists.
 
 ## Products and roadmap
 
@@ -82,6 +94,12 @@ buy buttons. When a build is ready:
 
 The download API gates paid products behind a completed purchase.
 
+## Community
+
+Bug reports and feature requests use GitHub Issues. Issue forms live in
+`.github/ISSUE_TEMPLATE/`. The `/community` page links to them, and a Discord is
+planned for the first beta.
+
 ## Deploy (Vercel)
 
 1. Push to GitHub.
@@ -91,7 +109,8 @@ The download API gates paid products behind a completed purchase.
    `DIRECT_URL` (session pooler, 5432). Copy both strings from the Supabase
    **Connect** dialog — the pooler username is `postgres.<project-ref>`.
    Also set `AUTH_SECRET`, `NEXT_PUBLIC_APP_URL=https://getjbsoftware.com` and
-   (if you want Google sign-in) `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET`.
+   `CONTACT_EMAIL=contact@getjbsoftware.com`. Add the Lemon Squeezy variables
+   when payments go live.
    If `NEXTAUTH_URL` is present, it must be the public production URL — or
    remove it and let Auth.js use the request host.
 4. Apply migrations once against Supabase (from your machine or CI):
@@ -105,4 +124,4 @@ The download API gates paid products behind a completed purchase.
 5. Keep the Vercel Build Command as the default (`npm run build`). Migrations
    are intentionally not part of the build so a database hiccup cannot break
    deployments.
-6. Set the Stripe webhook to your production domain.
+6. Point the Lemon Squeezy webhook at the production domain.

@@ -41,25 +41,14 @@ export default function TermsPage() {
           Paid tools are planned as one-time purchases with lifetime updates for
           the purchased major version, unless stated otherwise at checkout.
           Prices and availability will be shown before you pay. Payments are
-          processed by Stripe. Nothing on this site is a subscription unless we
-          explicitly say so.
+          processed by Lemon Squeezy, which acts as merchant of record and
+          handles sales tax and VAT. Nothing on this site is a subscription
+          unless we explicitly say so.
         </p>
         <p>
           If a product is not delivered or is materially different from its
           description, contact us and we will work it out. Nothing here limits
           rights you have under mandatory consumer law.
-        </p>
-      </section>
-
-      <section>
-        <h2>Contributions</h2>
-        <p>
-          Contributions made through the investments page are voluntary,
-          one-time contributions to support development. They are not equity,
-          securities, loans or financial instruments, and they do not give you
-          ownership or a share of revenue. They are not tax advice. Only
-          contribute if you can afford to and understand that the roadmap may
-          change.
         </p>
       </section>
 

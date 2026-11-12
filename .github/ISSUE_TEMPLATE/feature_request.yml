@@ -1,0 +1,47 @@
+name: Feature request
+description: Suggest an idea that would make JB Software better.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Good feature requests start with the problem, not the solution. Tell us
+        what you are trying to do and what gets in the way.
+  - type: dropdown
+    id: product
+    attributes:
+      label: Product
+      options:
+        - JB Launcher
+        - JB Optimizer Pro
+        - Website or account
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      placeholder: I want to open the same set of apps every morning without typing each one.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you have tried
+    validations:
+      required: false
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - label: This is useful for a typical user, not just my setup.
+          required: false

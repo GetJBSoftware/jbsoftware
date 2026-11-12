@@ -6,4 +6,4 @@ export const SITE = {
 } as const;
 
 export const CONTACT_EMAIL =
-  process.env.CONTACT_EMAIL ?? "haithamjb2020@gmail.com";
+  process.env.CONTACT_EMAIL ?? "contact@getjbsoftware.com";

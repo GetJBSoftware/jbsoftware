@@ -26,9 +26,9 @@ export default function PrivacyPage() {
             itself.
           </li>
           <li>
-            <strong>Purchases and contributions.</strong> We store records of
-            products you buy and contributions you make, including the amount,
-            currency, status and the Stripe session identifier.
+            <strong>Purchases.</strong> We store records of products you buy,
+            including the amount, currency, status and the payment provider
+            order identifier.
           </li>
           <li>
             <strong>Launch list.</strong> If you ask us to notify you when our
@@ -51,7 +51,7 @@ export default function PrivacyPage() {
         <h2>How we use information</h2>
         <ul>
           <li>To create and manage your account and keep you signed in.</li>
-          <li>To process purchases and contributions and provide access to paid software.</li>
+          <li>To process purchases and provide access to paid software.</li>
           <li>To respond to your messages and support requests.</li>
           <li>To keep the service secure, prevent abuse and fix problems.</li>
         </ul>
@@ -64,8 +64,9 @@ export default function PrivacyPage() {
       <section>
         <h2>Cookies and sessions</h2>
         <p>
-          We use a session cookie to keep you signed in. Stripe may set cookies
-          while you complete a payment. We do not use cookies for advertising.
+          We use a session cookie to keep you signed in. Lemon Squeezy may set
+          cookies while you complete a payment. We do not use cookies for
+          advertising.
         </p>
       </section>
 
@@ -73,9 +74,9 @@ export default function PrivacyPage() {
         <h2>Service providers</h2>
         <p>
           We rely on trusted providers to run the service: Google for optional
-          sign-in, Stripe for payments, Supabase for the database, and Vercel for
-          hosting. These providers process data on our behalf and under their own
-          privacy terms.
+          sign-in, Lemon Squeezy for payments and sales tax, Supabase for the
+          database, and Vercel for hosting. These providers process data on our
+          behalf and under their own privacy terms.
         </p>
       </section>
 

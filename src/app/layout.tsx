@@ -20,12 +20,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: "JB Software — Coming soon",
   description:
-    "JB Software builds fast, focused desktop tools for Windows and macOS. Free and one-time paid tools are in development.",
+    "JB Software builds fast, focused desktop tools for Windows. A free launcher and a one-time optimizer are in development.",
   applicationName: "JB Software",
   openGraph: {
     title: "JB Software",
     description:
-      "Fast, focused desktop tools for Windows and macOS. Coming soon.",
+      "Fast, focused desktop tools for Windows. Coming soon.",
     url: "/",
     siteName: "JB Software",
     images: [
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "JB Software",
     description:
-      "Fast, focused desktop tools for Windows and macOS. Coming soon.",
+      "Fast, focused desktop tools for Windows. Coming soon.",
     images: ["/og.png"],
   },
 };
