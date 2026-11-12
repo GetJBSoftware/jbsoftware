@@ -6,6 +6,10 @@ import { CONTACT_EMAIL, SITE } from "@/lib/site";
 export const metadata = {
   title: "Contact — JB Software",
   description: "Get in touch with the JB Software team.",
+  alternates: {
+    canonical: "/contact",
+    languages: { en: "/contact", es: "/es/contact" },
+  },
 };
 
 export default function ContactPage() {

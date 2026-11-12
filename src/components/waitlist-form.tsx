@@ -3,8 +3,17 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { AlertCircle, CheckCircle2, Loader2, Send } from "lucide-react";
+import { getDict } from "@/lib/dictionary";
+import type { Lang } from "@/lib/i18n";
 
-export function WaitlistForm({ source = "site" }: { source?: string }) {
+export function WaitlistForm({
+  source = "site",
+  lang = "en",
+}: {
+  source?: string;
+  lang?: Lang;
+}) {
+  const d = getDict(lang).waitlistForm;
   const [email, setEmail] = useState("");
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
@@ -19,19 +28,19 @@ export function WaitlistForm({ source = "site" }: { source?: string }) {
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, source }),
+        body: JSON.stringify({ email, source, lang }),
       });
       const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
-        setError(data.error ?? "Something went wrong. Please try again.");
+        setError(data.error ?? d.error);
         return;
       }
 
       setDone(true);
       setEmail("");
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError(d.error);
     } finally {
       setBusy(false);
     }
@@ -41,10 +50,7 @@ export function WaitlistForm({ source = "site" }: { source?: string }) {
     return (
       <div className="flex items-start gap-3 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-5 text-sm text-emerald-200">
         <CheckCircle2 size={18} className="mt-0.5 shrink-0" />
-        <p>
-          You&apos;re on the list. We&apos;ll email you when the first tools are
-          ready — and your 50% launch discount will be waiting.
-        </p>
+        <p>{d.done}</p>
       </div>
     );
   }
@@ -53,13 +59,13 @@ export function WaitlistForm({ source = "site" }: { source?: string }) {
     <form onSubmit={onSubmit} className="space-y-3">
       <div className="flex flex-col gap-3 sm:flex-row">
         <label className="flex-1">
-          <span className="sr-only">Email address</span>
+          <span className="sr-only">{d.emailLabel}</span>
           <input
             type="email"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
+            placeholder={d.placeholder}
             autoComplete="email"
             className="w-full rounded-full border border-white/10 bg-black px-5 py-3 text-sm outline-none focus:border-white/30"
           />
@@ -74,7 +80,7 @@ export function WaitlistForm({ source = "site" }: { source?: string }) {
           ) : (
             <Send size={16} />
           )}
-          Get early access
+          {d.submit}
         </button>
       </div>
 
@@ -85,10 +91,7 @@ export function WaitlistForm({ source = "site" }: { source?: string }) {
         </p>
       )}
 
-      <p className="text-xs text-zinc-500">
-        One email when we launch, plus your 50% discount. No spam, unsubscribe
-        anytime.
-      </p>
+      <p className="text-xs text-zinc-500">{d.note}</p>
     </form>
   );
 }

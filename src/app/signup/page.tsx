@@ -4,6 +4,10 @@ import { SignUpForm } from "./signup-form";
 export const metadata = {
   title: "Create account — JB Software",
   description: "Create a JB Software account.",
+  alternates: {
+    canonical: "/signup",
+    languages: { en: "/signup", es: "/es/signup" },
+  },
 };
 
 export default function SignUpPage() {

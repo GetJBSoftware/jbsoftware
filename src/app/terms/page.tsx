@@ -4,6 +4,10 @@ import { CONTACT_EMAIL } from "@/lib/site";
 export const metadata = {
   title: "Terms of Service — JB Software",
   description: "The terms that apply when you use the JB Software website.",
+  alternates: {
+    canonical: "/terms",
+    languages: { en: "/terms", es: "/es/terms" },
+  },
 };
 
 export default function TermsPage() {

@@ -12,6 +12,10 @@ export const metadata = {
   title: "Downloads — JB Software",
   description:
     "JB Launcher (free) and JB Optimizer Pro (one-time purchase) are in development. Join the launch list.",
+  alternates: {
+    canonical: "/downloads",
+    languages: { en: "/downloads", es: "/es/downloads" },
+  },
 };
 
 export default async function DownloadsPage() {

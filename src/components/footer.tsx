@@ -1,13 +1,25 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { CONTACT_EMAIL, SITE } from "@/lib/site";
+import { getDict } from "@/lib/dictionary";
+import { langFromPathname, lhref } from "@/lib/i18n";
 
 export function Footer() {
+  const pathname = usePathname();
+  const lang = langFromPathname(pathname);
+  const d = getDict(lang);
+
   return (
     <footer className="border-t border-white/5 bg-black">
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-6 py-12 text-sm md:grid-cols-4">
         <div className="col-span-2 md:col-span-1">
-          <Link href="/" className="inline-flex items-center gap-2.5 font-semibold">
+          <Link
+            href={lhref(lang, "/")}
+            className="inline-flex items-center gap-2.5 font-semibold"
+          >
             <Image
               src="/logo-mark.png"
               alt=""
@@ -17,9 +29,7 @@ export function Footer() {
             />
             <span>JB Software</span>
           </Link>
-          <p className="mt-3 max-w-xs text-zinc-500">
-            Fast, focused desktop software. Built with care, shipped with pride.
-          </p>
+          <p className="mt-3 max-w-xs text-zinc-500">{d.footer.tagline}</p>
           <a
             href={`mailto:${CONTACT_EMAIL}`}
             className="mt-4 inline-block text-zinc-500 hover:text-white"
@@ -28,31 +38,31 @@ export function Footer() {
           </a>
         </div>
         <div>
-          <div className="mb-3 font-medium text-zinc-400">Product</div>
+          <div className="mb-3 font-medium text-zinc-400">{d.footer.product}</div>
           <ul className="space-y-2 text-zinc-500">
             <li>
-              <Link href="/downloads" className="hover:text-white">
-                Downloads
+              <Link href={lhref(lang, "/downloads")} className="hover:text-white">
+                {d.footer.downloads}
               </Link>
             </li>
             <li>
-              <Link href="/roadmap" className="hover:text-white">
-                Roadmap
+              <Link href={lhref(lang, "/roadmap")} className="hover:text-white">
+                {d.footer.roadmap}
               </Link>
             </li>
             <li>
-              <Link href="/#waitlist" className="hover:text-white">
-                Launch list
+              <Link href={lhref(lang, "/#waitlist")} className="hover:text-white">
+                {d.footer.launchList}
               </Link>
             </li>
           </ul>
         </div>
         <div>
-          <div className="mb-3 font-medium text-zinc-400">Company</div>
+          <div className="mb-3 font-medium text-zinc-400">{d.footer.company}</div>
           <ul className="space-y-2 text-zinc-500">
             <li>
-              <Link href="/community" className="hover:text-white">
-                Community
+              <Link href={lhref(lang, "/community")} className="hover:text-white">
+                {d.footer.community}
               </Link>
             </li>
             <li>
@@ -66,23 +76,23 @@ export function Footer() {
               </a>
             </li>
             <li>
-              <Link href="/contact" className="hover:text-white">
-                Contact
+              <Link href={lhref(lang, "/contact")} className="hover:text-white">
+                {d.footer.contact}
               </Link>
             </li>
           </ul>
         </div>
         <div>
-          <div className="mb-3 font-medium text-zinc-400">Legal</div>
+          <div className="mb-3 font-medium text-zinc-400">{d.footer.legal}</div>
           <ul className="space-y-2 text-zinc-500">
             <li>
-              <Link href="/privacy" className="hover:text-white">
-                Privacy
+              <Link href={lhref(lang, "/privacy")} className="hover:text-white">
+                {d.footer.privacy}
               </Link>
             </li>
             <li>
-              <Link href="/terms" className="hover:text-white">
-                Terms
+              <Link href={lhref(lang, "/terms")} className="hover:text-white">
+                {d.footer.terms}
               </Link>
             </li>
           </ul>
@@ -90,14 +100,16 @@ export function Footer() {
       </div>
       <div className="border-t border-white/5 py-6">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-6 text-xs text-zinc-600 sm:flex-row">
-          <p>© {new Date().getFullYear()} JB Software. All rights reserved.</p>
+          <p>
+            © {new Date().getFullYear()} JB Software. {d.footer.rights}
+          </p>
           <a
             href={`${SITE.repo}/issues`}
             target="_blank"
             rel="noreferrer"
             className="hover:text-zinc-300"
           >
-            Report an issue
+            {d.footer.reportIssue}
           </a>
         </div>
       </div>

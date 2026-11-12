@@ -20,10 +20,26 @@ const routes: Array<{
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
 
-  return routes.map(({ path, priority, changeFrequency }) => ({
-    url: `${SITE.url}${path}`,
-    lastModified,
-    changeFrequency,
-    priority,
-  }));
+  return routes.flatMap(({ path, priority, changeFrequency }) => {
+    const en = `${SITE.url}${path}`;
+    const es = `${SITE.url}${path === "" ? "/es" : `/es${path}`}`;
+    const languages = { en, es };
+
+    return [
+      {
+        url: en,
+        lastModified,
+        changeFrequency,
+        priority,
+        alternates: { languages },
+      },
+      {
+        url: es,
+        lastModified,
+        changeFrequency,
+        priority,
+        alternates: { languages },
+      },
+    ];
+  });
 }

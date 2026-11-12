@@ -4,21 +4,33 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Bell, Check, Clock, Download, Loader2, Lock } from "lucide-react";
-import { formatPrice, type Product } from "@/lib/products";
+import { formatPrice, productText, type Product } from "@/lib/products";
+import { getDict } from "@/lib/dictionary";
+import { lhref, type Lang } from "@/lib/i18n";
 
 interface Props {
   products: Product[];
   owned: string[];
   isSignedIn: boolean;
+  lang?: Lang;
 }
 
-export function DownloadGrid({ products, owned, isSignedIn }: Props) {
+export function DownloadGrid({
+  products,
+  owned,
+  isSignedIn,
+  lang = "en",
+}: Props) {
   const router = useRouter();
+  const d = getDict(lang).downloadGrid;
   const [busy, setBusy] = useState<string | null>(null);
+
+  const downloadsHref = lhref(lang, "/downloads");
 
   async function handleBuy(slug: string) {
     if (!isSignedIn) {
-      router.push("/signin?callbackUrl=/downloads");
+      const signin = lhref(lang, "/signin");
+      router.push(`${signin}?callbackUrl=${encodeURIComponent(downloadsHref)}`);
       return;
     }
     setBusy(slug);
@@ -26,11 +38,11 @@ export function DownloadGrid({ products, owned, isSignedIn }: Props) {
       const res = await fetch("/api/checkout/product", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ slug }),
+        body: JSON.stringify({ slug, lang }),
       });
       const data = await res.json().catch(() => ({}));
       if (data.url) window.location.href = data.url;
-      else alert(data.error ?? "Checkout is not open yet.");
+      else alert(data.error ?? d.checkoutError);
     } finally {
       setBusy(null);
     }
@@ -42,6 +54,7 @@ export function DownloadGrid({ products, owned, isSignedIn }: Props) {
         const isOwned = owned.includes(p.slug);
         const loading = busy === p.slug;
         const available = p.status === "available";
+        const copy = productText(p, lang);
 
         return (
           <div
@@ -58,18 +71,18 @@ export function DownloadGrid({ products, owned, isSignedIn }: Props) {
                     : "bg-amber-500/10 text-amber-400"
                 }`}
               >
-                {formatPrice(p)}
+                {formatPrice(p, lang)}
               </span>
             </div>
 
             <h3 className="mt-4 text-2xl font-medium">{p.name}</h3>
             <p className="mt-2 inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-amber-300/80">
-              <Clock size={12} /> Coming soon
+              <Clock size={12} /> {d.comingSoon}
             </p>
-            <p className="mt-3 text-zinc-400">{p.description}</p>
+            <p className="mt-3 text-zinc-400">{copy.description}</p>
 
             <ul className="mt-5 space-y-2 text-sm text-zinc-300">
-              {p.highlights.map((item) => (
+              {copy.highlights.map((item) => (
                 <li key={item} className="flex items-start gap-2.5">
                   <Check size={15} className="mt-0.5 shrink-0 text-emerald-400" />
                   <span>{item}</span>
@@ -78,7 +91,7 @@ export function DownloadGrid({ products, owned, isSignedIn }: Props) {
             </ul>
 
             <p className="mt-5 flex-1 text-sm text-zinc-500">
-              {p.longDescription}
+              {copy.longDescription}
             </p>
 
             <div className="mt-6 space-y-3">
@@ -88,7 +101,7 @@ export function DownloadGrid({ products, owned, isSignedIn }: Props) {
                   disabled
                   className="inline-flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-5 py-2.5 font-medium text-zinc-400"
                 >
-                  <Clock size={16} /> Coming soon
+                  <Clock size={16} /> {d.comingSoon}
                 </button>
               ) : p.type === "free" ? (
                 <a
@@ -96,7 +109,7 @@ export function DownloadGrid({ products, owned, isSignedIn }: Props) {
                   className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 font-medium text-black transition hover:bg-zinc-200"
                 >
                   <Download size={16} />
-                  Download free
+                  {d.downloadFree}
                 </a>
               ) : isOwned ? (
                 <a
@@ -104,7 +117,7 @@ export function DownloadGrid({ products, owned, isSignedIn }: Props) {
                   className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-emerald-500 px-5 py-2.5 font-medium text-black transition hover:bg-emerald-400"
                 >
                   <Check size={16} />
-                  Download (owned)
+                  {d.downloadOwned}
                 </a>
               ) : (
                 <button
@@ -117,7 +130,7 @@ export function DownloadGrid({ products, owned, isSignedIn }: Props) {
                   ) : (
                     <Lock size={16} />
                   )}
-                  Buy for ${(p.price / 100).toFixed(0)}
+                  {d.buyFor} ${(p.price / 100).toFixed(0)}
                 </button>
               )}
 
@@ -125,7 +138,7 @@ export function DownloadGrid({ products, owned, isSignedIn }: Props) {
                 href="#waitlist"
                 className="inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-sm text-zinc-400 transition hover:text-white"
               >
-                <Bell size={14} /> Get notified at launch
+                <Bell size={14} /> {d.notify}
               </Link>
             </div>
           </div>

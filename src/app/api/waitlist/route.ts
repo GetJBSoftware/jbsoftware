@@ -1,19 +1,38 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { dict } from "@/lib/dictionary";
+import type { Lang } from "@/lib/i18n";
 
-const waitlistSchema = z.object({
-  email: z.string().trim().toLowerCase().pipe(z.email("Enter a valid email.")),
-  source: z.string().trim().max(40).optional(),
-});
+const langSchema = z.enum(["en", "es"]).optional();
+
+function langOf(value: unknown): Lang {
+  const parsed = langSchema.safeParse(value);
+  return parsed.success && parsed.data ? parsed.data : "en";
+}
 
 export async function POST(req: Request) {
   const body = await req.json().catch(() => null);
+  const lang = langOf(
+    body && typeof body === "object" && "lang" in body ? body.lang : undefined
+  );
+  const messages = dict[lang].api;
+
+  const waitlistSchema = z.object({
+    email: z
+      .string()
+      .trim()
+      .toLowerCase()
+      .pipe(z.email(messages.invalidEmail)),
+    source: z.string().trim().max(40).optional(),
+    lang: langSchema,
+  });
+
   const parsed = waitlistSchema.safeParse(body);
 
   if (!parsed.success) {
     return NextResponse.json(
-      { error: parsed.error.issues[0]?.message ?? "Enter a valid email." },
+      { error: parsed.error.issues[0]?.message ?? messages.invalidEmail },
       { status: 400 }
     );
   }
@@ -32,7 +51,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json(
-      { error: "We could not save your email. Please try again." },
+      { error: messages.waitlistFailed },
       { status: 500 }
     );
   }

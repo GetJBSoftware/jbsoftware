@@ -4,6 +4,10 @@ import { CONTACT_EMAIL } from "@/lib/site";
 export const metadata = {
   title: "Privacy Policy — JB Software",
   description: "How JB Software collects, uses and protects your information.",
+  alternates: {
+    canonical: "/privacy",
+    languages: { en: "/privacy", es: "/es/privacy" },
+  },
 };
 
 export default function PrivacyPage() {

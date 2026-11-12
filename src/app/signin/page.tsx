@@ -4,6 +4,10 @@ import { SignInForm } from "./signin-form";
 export const metadata = {
   title: "Sign in — JB Software",
   description: "Sign in to your JB Software account.",
+  alternates: {
+    canonical: "/signin",
+    languages: { en: "/signin", es: "/es/signin" },
+  },
 };
 
 export default function SignInPage() {

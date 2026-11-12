@@ -3,8 +3,17 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { Mail, Send } from "lucide-react";
+import { getDict } from "@/lib/dictionary";
+import type { Lang } from "@/lib/i18n";
 
-export function ContactForm({ email }: { email: string }) {
+export function ContactForm({
+  email,
+  lang = "en",
+}: {
+  email: string;
+  lang?: Lang;
+}) {
+  const d = getDict(lang).contactForm;
   const [opened, setOpened] = useState(false);
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -13,10 +22,10 @@ export function ContactForm({ email }: { email: string }) {
     const data = new FormData(event.currentTarget);
     const name = String(data.get("name") ?? "");
     const from = String(data.get("email") ?? "");
-    const subject = String(data.get("subject") ?? "Website enquiry");
+    const subject = String(data.get("subject") ?? d.defaultSubject);
     const message = String(data.get("message") ?? "");
 
-    const body = `Name: ${name}\nEmail: ${from}\n\n${message}`;
+    const body = `${d.bodyName}: ${name}\n${d.bodyEmail}: ${from}\n\n${message}`;
 
     setOpened(true);
     window.location.href = `mailto:${email}?subject=${encodeURIComponent(
@@ -26,48 +35,48 @@ export function ContactForm({ email }: { email: string }) {
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className="grid gap-4 sm:grid-cols-2">
         <label className="block">
-          <span className="text-sm text-zinc-300">Name</span>
+          <span className="text-sm text-zinc-300">{d.name}</span>
           <input
             name="name"
             type="text"
             required
             className="mt-2 w-full rounded-xl border border-white/10 bg-black px-4 py-3 text-sm outline-none focus:border-white/30"
-            placeholder="Your name"
+            placeholder={d.namePlaceholder}
           />
         </label>
         <label className="block">
-          <span className="text-sm text-zinc-300">Email</span>
+          <span className="text-sm text-zinc-300">{d.email}</span>
           <input
             name="email"
             type="email"
             required
             className="mt-2 w-full rounded-xl border border-white/10 bg-black px-4 py-3 text-sm outline-none focus:border-white/30"
-            placeholder="you@example.com"
+            placeholder={d.emailPlaceholder}
           />
         </label>
       </div>
 
       <label className="block">
-        <span className="text-sm text-zinc-300">Subject</span>
+        <span className="text-sm text-zinc-300">{d.subject}</span>
         <input
           name="subject"
           type="text"
           required
           className="mt-2 w-full rounded-xl border border-white/10 bg-black px-4 py-3 text-sm outline-none focus:border-white/30"
-          placeholder="How can we help?"
+          placeholder={d.subjectPlaceholder}
         />
       </label>
 
       <label className="block">
-        <span className="text-sm text-zinc-300">Message</span>
+        <span className="text-sm text-zinc-300">{d.message}</span>
         <textarea
           name="message"
           required
           rows={6}
           className="mt-2 w-full resize-y rounded-xl border border-white/10 bg-black px-4 py-3 text-sm outline-none focus:border-white/30"
-          placeholder="Tell us a little about what you need."
+          placeholder={d.messagePlaceholder}
         />
       </label>
 
@@ -75,12 +84,11 @@ export function ContactForm({ email }: { email: string }) {
         type="submit"
         className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 font-medium text-black transition hover:bg-zinc-200"
       >
-        <Send size={16} /> Send message
+        <Send size={16} /> {d.submit}
       </button>
 
       <p className="text-xs text-zinc-500">
-        This opens your email app with the message ready to send. You can also
-        email us directly at{" "}
+        {d.hint}{" "}
         <a href={`mailto:${email}`} className="underline hover:text-zinc-300">
           {email}
         </a>
@@ -89,8 +97,7 @@ export function ContactForm({ email }: { email: string }) {
 
       {opened && (
         <p className="inline-flex items-center gap-2 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-300">
-          <Mail size={16} /> Your email app should be open. Review the message
-          and hit send.
+          <Mail size={16} /> {d.success}
         </p>
       )}
     </form>

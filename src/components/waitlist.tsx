@@ -1,7 +1,17 @@
 import { Bell, Gift } from "lucide-react";
 import { WaitlistForm } from "@/components/waitlist-form";
+import { getDict } from "@/lib/dictionary";
+import type { Lang } from "@/lib/i18n";
 
-export function Waitlist({ source }: { source: string }) {
+export function Waitlist({
+  source,
+  lang = "en",
+}: {
+  source: string;
+  lang?: Lang;
+}) {
+  const d = getDict(lang).waitlist;
+
   return (
     <section
       id="waitlist"
@@ -11,23 +21,19 @@ export function Waitlist({ source }: { source: string }) {
         <div className="grid gap-8 md:grid-cols-[1.15fr_1fr] md:items-center">
           <div>
             <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-zinc-500">
-              <Bell size={13} /> Launch list
+              <Bell size={13} /> {d.eyebrow}
             </p>
             <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
-              Be first in line.
+              {d.titleLine1}
               <br />
-              Get 50% off at launch.
+              {d.titleLine2}
             </h2>
-            <p className="mt-3 text-zinc-400">
-              Join the launch list and we&apos;ll send one email when JB
-              Launcher and JB Optimizer Pro are ready. Members get 50% off JB
-              Optimizer Pro on launch day.
-            </p>
+            <p className="mt-3 text-zinc-400">{d.body}</p>
             <p className="mt-5 inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1.5 text-xs text-emerald-300">
-              <Gift size={13} /> Launch-list perk · 50% off JB Optimizer Pro
+              <Gift size={13} /> {d.perk}
             </p>
           </div>
-          <WaitlistForm source={source} />
+          <WaitlistForm source={source} lang={lang} />
         </div>
       </div>
     </section>

@@ -1,3 +1,5 @@
+import type { Lang } from "@/lib/i18n";
+
 export type ProductType = "free" | "paid";
 export type ProductStatus = "coming-soon" | "available";
 
@@ -7,6 +9,10 @@ export interface Product {
   description: string;
   longDescription: string;
   highlights: string[];
+  /** Spanish copy. Falls back to the English fields when missing. */
+  descriptionEs?: string;
+  longDescriptionEs?: string;
+  highlightsEs?: string[];
   /** Price in cents. Kept for the future checkout flow. */
   price: number;
   currency: string;
@@ -37,10 +43,18 @@ export const PRODUCTS: Product[] = [
     description: "A fast, minimal application launcher for Windows.",
     longDescription:
       "Index your apps, files and commands, then open anything in milliseconds. Built for speed, privacy and zero telemetry.",
+    descriptionEs: "Un launcher de aplicaciones rápido y minimalista para Windows.",
+    longDescriptionEs:
+      "Indexa tus aplicaciones, archivos y comandos y abre cualquier cosa en milisegundos. Pensado para la velocidad, la privacidad y cero telemetría.",
     highlights: [
       "Instant search across apps, files and commands",
       "Keyboard-first, no mouse required",
       "No account, no telemetry, no background noise",
+    ],
+    highlightsEs: [
+      "Búsqueda instantánea de apps, archivos y comandos",
+      "Pensado para el teclado, sin necesidad de ratón",
+      "Sin cuenta, sin telemetría y sin ruido de fondo",
     ],
     price: 0,
     currency: "usd",
@@ -55,10 +69,19 @@ export const PRODUCTS: Product[] = [
     description: "One-click system tuning and cleanup for maximum performance.",
     longDescription:
       "Remove bloat, tune services and schedule maintenance without digging through settings. One-time purchase with lifetime updates.",
+    descriptionEs:
+      "Optimización y limpieza del sistema con un clic para el máximo rendimiento.",
+    longDescriptionEs:
+      "Elimina el bloat, ajusta servicios y programa el mantenimiento sin bucear entre ajustes. Compra única con actualizaciones de por vida.",
     highlights: [
       "Safe, reversible system cleanup",
       "Startup and background-process tuning",
       "One-time price, lifetime updates, no subscription",
+    ],
+    highlightsEs: [
+      "Limpieza segura y reversible del sistema",
+      "Ajuste del inicio y de los procesos en segundo plano",
+      "Pago único, actualizaciones de por vida y sin suscripción",
     ],
     price: 1900,
     currency: "usd",
@@ -73,7 +96,25 @@ export function getProduct(slug: string) {
   return PRODUCTS.find((p) => p.slug === slug);
 }
 
-export function formatPrice(product: Product) {
-  if (product.type === "free") return "Free";
-  return `$${(product.price / 100).toFixed(0)} one-time`;
+export function formatPrice(product: Product, lang: Lang = "en") {
+  if (product.type === "free") return lang === "es" ? "Gratis" : "Free";
+  const amount = `$${(product.price / 100).toFixed(0)}`;
+  return lang === "es" ? `${amount} pago único` : `${amount} one-time`;
+}
+
+/** Returns the product copy in the requested language. */
+export function productText(product: Product, lang: Lang) {
+  if (lang === "en") {
+    return {
+      description: product.description,
+      longDescription: product.longDescription,
+      highlights: product.highlights,
+    };
+  }
+
+  return {
+    description: product.descriptionEs ?? product.description,
+    longDescription: product.longDescriptionEs ?? product.longDescription,
+    highlights: product.highlightsEs ?? product.highlights,
+  };
 }

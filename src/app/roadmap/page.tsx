@@ -17,6 +17,10 @@ export const metadata = {
   title: "Roadmap — JB Software",
   description:
     "Follow what we are building: JB Launcher, JB Optimizer Pro and the path to launch.",
+  alternates: {
+    canonical: "/roadmap",
+    languages: { en: "/roadmap", es: "/es/roadmap" },
+  },
 };
 
 const milestones = [

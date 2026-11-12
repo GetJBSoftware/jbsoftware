@@ -14,6 +14,10 @@ export const metadata = {
   title: "Community — JB Software",
   description:
     "Report bugs, request features and follow the JB Software roadmap.",
+  alternates: {
+    canonical: "/community",
+    languages: { en: "/community", es: "/es/community" },
+  },
 };
 
 export default function CommunityPage() {

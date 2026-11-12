@@ -14,6 +14,16 @@ import { Waitlist } from "@/components/waitlist";
 import { LauncherPreview } from "@/components/launcher-preview";
 import { SITE } from "@/lib/site";
 
+export const metadata = {
+  title: "JB Software — Coming soon",
+  description:
+    "JB Software builds fast, focused desktop tools for Windows. A free launcher and a one-time optimizer are in development.",
+  alternates: {
+    canonical: "/",
+    languages: { en: "/", es: "/es" },
+  },
+};
+
 export default function Home() {
   const featured = PRODUCTS.filter((p) => p.featured).slice(0, 2);
 
