@@ -22,12 +22,11 @@ export function Footer() {
           >
             <Image
               src="/logo-mark.png"
-              alt=""
-              width={588}
-              height={418}
-              className="h-9 w-auto rounded-md"
+              alt="JB Software"
+              width={577}
+              height={417}
+              className="h-10 w-auto"
             />
-            <span>JB Software</span>
           </Link>
           <p className="mt-3 max-w-xs text-zinc-500">{d.footer.tagline}</p>
           <a

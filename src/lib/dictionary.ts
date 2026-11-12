@@ -158,6 +158,14 @@ const en = {
     roadmap: "Roadmap",
     contact: "Contact",
   },
+  langSuggestion: {
+    regionLabel: "Language suggestion",
+    title: "This page is also available in English.",
+    body: "Switch to the English version of the site. You can change language at any time from the menu.",
+    action: "View in English",
+    dismiss: "No thanks",
+    close: "Dismiss language suggestion",
+  },
   api: {
     nameRequired: "Please enter your name.",
     invalidEmail: "Enter a valid email.",
@@ -336,6 +344,14 @@ const es: Dictionary = {
     home: "Inicio",
     roadmap: "Roadmap",
     contact: "Contacto",
+  },
+  langSuggestion: {
+    regionLabel: "Sugerencia de idioma",
+    title: "Esta página también está en español.",
+    body: "Cambia a la versión en español para España y Latinoamérica. Puedes cambiar de idioma cuando quieras desde el menú.",
+    action: "Ver en español",
+    dismiss: "No, gracias",
+    close: "Cerrar la sugerencia de idioma",
   },
   api: {
     nameRequired: "Introduce tu nombre.",

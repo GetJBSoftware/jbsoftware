@@ -8,6 +8,7 @@ import { Globe, User, LogOut, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { getDict } from "@/lib/dictionary";
 import { langFromPathname, lhref, otherLangHref, stripLocale } from "@/lib/i18n";
+import { rememberLangChoice } from "@/lib/lang-preference";
 
 export function Navbar() {
   const { data: session, status } = useSession();
@@ -17,6 +18,7 @@ export function Navbar() {
   const d = getDict(lang);
   const basePath = stripLocale(pathname);
   const switchHref = otherLangHref(lang, pathname);
+  const switchTarget = lang === "es" ? "en" : "es";
 
   const nav = [
     { href: lhref(lang, "/#intro"), path: "/", label: d.nav.home },
@@ -40,13 +42,12 @@ export function Navbar() {
         >
           <Image
             src="/logo-mark.png"
-            alt=""
-            width={588}
-            height={418}
+            alt="JB Software"
+            width={577}
+            height={417}
             priority
-            className="h-10 w-auto rounded-lg"
+            className="h-11 w-auto"
           />
-          <span>JB Software</span>
         </Link>
 
         <nav
@@ -70,6 +71,7 @@ export function Navbar() {
         <div className="hidden items-center gap-3 md:flex">
           <Link
             href={switchHref}
+            onClick={() => rememberLangChoice(switchTarget)}
             aria-label={d.nav.switchAria}
             className="inline-flex items-center gap-1.5 text-sm text-zinc-400 transition hover:text-white"
           >
@@ -145,7 +147,10 @@ export function Navbar() {
             ))}
             <Link
               href={switchHref}
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                rememberLangChoice(switchTarget);
+                setOpen(false);
+              }}
               className="inline-flex items-center gap-2 text-zinc-300 hover:text-white"
             >
               <Globe size={15} /> {d.nav.switchTo}

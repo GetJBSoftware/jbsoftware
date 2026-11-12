@@ -5,6 +5,7 @@ import { Providers } from "@/components/providers";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { LangSync, SkipLink } from "@/components/lang-sync";
+import { LanguageSuggestion } from "@/components/language-suggestion";
 import { SITE, CONTACT_EMAIL } from "@/lib/site";
 
 const geistSans = Geist({
@@ -72,6 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
         <Providers>
+          <LanguageSuggestion />
           <Navbar />
           <main id="main" className="flex-1 pt-16">
             {children}
