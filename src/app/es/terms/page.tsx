@@ -71,13 +71,13 @@ export default function TermsPageEs() {
       <section>
         <h2>Compras</h2>
         <p>
-          Las herramientas de pago están previstas como compras únicas con
-          actualizaciones de por vida para la versión principal comprada, salvo
-          que se indique lo contrario en el momento del pago. Los precios y la
-          disponibilidad se mostrarán antes de pagar. Los pagos los procesa Lemon
-          Squeezy, que actúa como comerciante registrado y gestiona los impuestos
-          sobre ventas y el IVA. Nada de este sitio es una suscripción a menos que
-          lo digamos explícitamente.
+          Las herramientas de pago pueden ofrecerse como compra única o, cuando
+          se indique claramente en el momento del pago, como suscripción. Los
+          precios, las condiciones de facturación y la disponibilidad se
+          mostrarán antes de pagar. Los pagos los procesa Lemon Squeezy, que
+          actúa como comerciante registrado y gestiona los impuestos sobre ventas
+          y el IVA. Nada de este sitio es una suscripción a menos que lo digamos
+          explícitamente.
         </p>
         <p>
           Si un producto no se entrega o difiere sustancialmente de su

@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: "JB Software — Coming soon",
   description:
-    "JB Software builds fast, focused desktop tools for Windows. A free launcher and a one-time optimizer are in development.",
+    "JB Software builds fast, focused desktop tools for Windows. A free command bar, a local search engine and a workspace manager are in development.",
   applicationName: "JB Software",
   openGraph: {
     title: "JB Software",

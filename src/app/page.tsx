@@ -17,7 +17,7 @@ import { SITE } from "@/lib/site";
 export const metadata = {
   title: "JB Software — Coming soon",
   description:
-    "JB Software builds fast, focused desktop tools for Windows. A free launcher and a one-time optimizer are in development.",
+    "JB Software builds fast, focused desktop tools for Windows. A free command bar, a local search engine and a workspace manager are in development.",
   alternates: {
     canonical: "/",
     languages: { en: "/", es: "/es" },
@@ -25,7 +25,7 @@ export const metadata = {
 };
 
 export default function Home() {
-  const featured = PRODUCTS.filter((p) => p.featured).slice(0, 2);
+  const featured = PRODUCTS.filter((p) => p.featured).slice(0, 3);
 
   return (
     <div className="bg-black text-white">
@@ -49,8 +49,8 @@ export default function Home() {
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-zinc-400 md:text-xl">
             We are building fast, focused desktop tools for Windows. Everything
-            is in development — some tools will be free, others a one-time
-            purchase. No subscriptions.
+            is in development — some tools are free, others add optional paid
+            licences. Pricing will be published before launch.
           </p>
           <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
             <Link
@@ -72,7 +72,7 @@ export default function Home() {
               <Check size={13} /> Windows 10/11
             </li>
             <li className="inline-flex items-center gap-1.5">
-              <Check size={13} /> No subscriptions
+              <Check size={13} /> Free and paid tiers
             </li>
             <li className="inline-flex items-center gap-1.5">
               <Check size={13} /> No telemetry
@@ -100,8 +100,8 @@ export default function Home() {
             },
             {
               icon: Rocket,
-              title: "One-time pricing",
-              body: "Paid tools are a single purchase with lifetime updates. Never a subscription.",
+              title: "Fair pricing",
+              body: "Start free and upgrade only when a paid feature earns it. Pricing will be published before launch.",
             },
           ].map((v) => (
             <div
@@ -124,14 +124,15 @@ export default function Home() {
           <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-sm uppercase tracking-[0.3em] text-zinc-500">
-                The first two tools
+                The first three tools
               </p>
               <h2 className="mt-2 text-4xl font-semibold tracking-tight md:text-5xl">
-                Two tools. Zero bloat.
+                Three tools. Zero bloat.
               </h2>
               <p className="mt-3 max-w-2xl text-zinc-400">
-                A free launcher to make Windows feel instant, and a one-time
-                optimizer for people who want their machine to stay fast.
+                A free command bar for everyday file tasks, a local search
+                engine that finds things by content, and a workspace manager
+                that keeps your machine ready for anything.
               </p>
             </div>
             <Link
@@ -142,7 +143,7 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {featured.map((p) => (
               <div
                 key={p.slug}

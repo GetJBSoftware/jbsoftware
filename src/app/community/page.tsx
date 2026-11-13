@@ -66,8 +66,8 @@ export default function CommunityPage() {
             <Lightbulb className="h-6 w-6 text-zinc-300" />
             <h2 className="mt-4 text-xl font-medium">Request a feature</h2>
             <p className="mt-2 text-sm text-zinc-400">
-              Have an idea that would make the launcher or optimizer better?
-              Describe the problem you want solved.
+              Have an idea that would make JB Launcher, JB Search or JB
+              Workplace better? Describe the problem you want solved.
             </p>
             <span className="mt-5 inline-flex items-center gap-2 text-sm text-zinc-300 group-hover:text-white">
               Suggest a feature <ArrowRight size={15} />

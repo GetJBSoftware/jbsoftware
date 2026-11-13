@@ -16,7 +16,7 @@ import { SITE } from "@/lib/site";
 export const metadata = {
   title: "Roadmap — JB Software",
   description:
-    "Follow what we are building: JB Launcher, JB Optimizer Pro and the path to launch.",
+    "Follow what we are building: JB Launcher, JB Search, JB Workplace and the path to launch.",
   alternates: {
     canonical: "/roadmap",
     languages: { en: "/roadmap", es: "/es/roadmap" },
@@ -28,29 +28,29 @@ const milestones = [
     version: "v0.1",
     title: "Launcher core",
     status: "In progress" as const,
-    body: "App indexing, instant search and keyboard navigation. The foundation of JB Launcher.",
-    items: ["Local index with no telemetry", "Keyboard-first search", "Windows 10/11 support"],
+    body: "Command bar, contextual file actions and keyboard shortcuts. The foundation of JB Launcher.",
+    items: ["Selected-file detection", "Convert, unzip and clean actions", "Windows 10/11 support"],
   },
   {
     version: "v0.2",
     title: "Launcher beta",
     status: "Next" as const,
     body: "A signed installer, auto-updates and the settings people actually need.",
-    items: ["Signed Windows installer", "Auto-update channel", "Theme and hotkey settings"],
+    items: ["Signed Windows installer", "Auto-update channel", "Hotkey and action settings"],
   },
   {
     version: "v0.3",
-    title: "Optimizer engine",
+    title: "Search and workspace engine",
     status: "Planned" as const,
-    body: "Safe, reversible tuning for JB Optimizer Pro, built on the same local-first rules.",
-    items: ["Reversible cleanup", "Startup and background tuning", "Restore points before changes"],
+    body: "Local semantic indexing for JB Search, plus workspace switching and RAM tuning for JB Workplace.",
+    items: ["Local document and photo index", "One-click workspace presets", "Background RAM tuning"],
   },
   {
     version: "v1.0",
     title: "Public launch",
     status: "Planned" as const,
-    body: "JB Launcher goes free. JB Optimizer Pro goes on sale as a one-time purchase.",
-    items: ["Free launcher download", "One-time Optimizer Pro licence", "Launch-list discount"],
+    body: "JB Launcher goes free. JB Search and JB Workplace Pro go on sale with optional paid licences.",
+    items: ["Free launcher download", "Search demo and paid licence", "Workplace free and Pro tiers"],
   },
 ];
 
@@ -91,7 +91,7 @@ export default function RoadmapPage() {
       </section>
 
       <section className="px-6 pb-20">
-        <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2">
+        <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2 lg:grid-cols-3">
           {PRODUCTS.map((product) => (
             <div
               key={product.slug}
@@ -108,7 +108,9 @@ export default function RoadmapPage() {
                   className={`shrink-0 rounded-full px-3 py-1 text-xs ${
                     product.type === "free"
                       ? "bg-emerald-500/10 text-emerald-400"
-                      : "bg-amber-500/10 text-amber-400"
+                      : product.type === "paid"
+                        ? "bg-amber-500/10 text-amber-400"
+                        : "bg-sky-500/10 text-sky-300"
                   }`}
                 >
                   {formatPrice(product)}
@@ -198,10 +200,10 @@ export default function RoadmapPage() {
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6">
             <Rocket className="h-6 w-6" />
-            <h3 className="mt-4 font-medium">One-time pricing</h3>
+            <h3 className="mt-4 font-medium">Fair pricing</h3>
             <p className="mt-2 text-sm text-zinc-400">
-              Paid tools are a single purchase. Payments will be handled by Lemon
-              Squeezy at launch.
+              Start free and upgrade only when a paid feature earns it. Lemon
+              Squeezy will handle payments at launch.
             </p>
           </div>
         </div>
@@ -221,8 +223,8 @@ export default function RoadmapPage() {
                 </span>
               </div>
               <p className="mt-3 text-zinc-400">
-                The public roadmap and launch list are live. JB Launcher and JB
-                Optimizer Pro are in development.
+                The public roadmap and launch list are live. JB Launcher, JB
+                Search and JB Workplace are in development.
               </p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6">

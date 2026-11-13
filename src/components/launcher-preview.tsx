@@ -1,12 +1,11 @@
 import {
-  AppWindow,
+  Archive,
   Command,
+  Eraser,
   FileText,
-  Folder,
+  FolderOpen,
   Globe,
-  Search,
-  Settings,
-  Terminal,
+  Image,
   Zap,
 } from "lucide-react";
 import { getDict } from "@/lib/dictionary";
@@ -14,40 +13,41 @@ import type { Lang } from "@/lib/i18n";
 
 export function LauncherPreview({ lang = "en" }: { lang?: Lang }) {
   const d = getDict(lang).preview;
+  const es = lang === "es";
 
   const results = [
     {
-      icon: AppWindow,
-      name: "Figma",
-      detail: d.kindApp,
+      icon: FileText,
+      name: es ? "Convertir a PDF" : "Convert to PDF",
+      detail: es ? "Seleccionado · factura.docx" : "Selected · invoice.docx",
       key: "1",
       active: true,
     },
     {
-      icon: Folder,
-      name: lang === "es" ? "Proyectos" : "Projects",
-      detail: `${d.kindFolder} · D:\\Work`,
+      icon: Archive,
+      name: es ? "Extraer aquí" : "Extract here",
+      detail: es ? "Seleccionado · assets.zip" : "Selected · assets.zip",
       key: "2",
       active: false,
     },
     {
-      icon: FileText,
-      name: "roadmap.md",
-      detail: d.kindDocument,
+      icon: Image,
+      name: es ? "Comprimir imágenes" : "Compress images",
+      detail: es ? "Seleccionado · 14 fotos" : "Selected · 14 photos",
       key: "3",
       active: false,
     },
     {
-      icon: Terminal,
-      name: lang === "es" ? "Terminal" : "Terminal",
-      detail: `${d.kindCommand} · Windows`,
+      icon: Eraser,
+      name: es ? "Limpiar metadatos" : "Clean metadata",
+      detail: es ? "Seleccionado · foto.jpg" : "Selected · photo.jpg",
       key: "4",
       active: false,
     },
     {
-      icon: Settings,
-      name: lang === "es" ? "Ajustes" : "Settings",
-      detail: d.kindSystem,
+      icon: FolderOpen,
+      name: es ? "Abrir con…" : "Open with…",
+      detail: es ? "Seleccionado · informe.xlsx" : "Selected · report.xlsx",
       key: "5",
       active: false,
     },
@@ -69,11 +69,11 @@ export function LauncherPreview({ lang = "en" }: { lang?: Lang }) {
 
           <ul className="mt-7 space-y-3 text-sm text-zinc-300">
             <li className="flex items-start gap-3">
-              <Search size={16} className="mt-0.5 shrink-0 text-zinc-500" />
+              <Command size={16} className="mt-0.5 shrink-0 text-zinc-500" />
               {d.bullet1}
             </li>
             <li className="flex items-start gap-3">
-              <Command size={16} className="mt-0.5 shrink-0 text-zinc-500" />
+              <Archive size={16} className="mt-0.5 shrink-0 text-zinc-500" />
               {d.bullet2}
             </li>
             <li className="flex items-start gap-3">
@@ -99,7 +99,7 @@ export function LauncherPreview({ lang = "en" }: { lang?: Lang }) {
 
             <div className="p-4 md:p-5">
               <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-black/60 px-4 py-3">
-                <Search size={16} className="text-zinc-500" />
+                <Command size={16} className="text-zinc-500" />
                 <span className="text-sm text-zinc-300">
                   {d.searchPlaceholder}
                   <span className="ml-0.5 inline-block h-4 w-px animate-pulse bg-zinc-300 align-middle" />

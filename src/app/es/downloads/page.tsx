@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Descargas — JB Software",
   description:
-    "JB Launcher (gratis) y JB Optimizer Pro (pago único) están en desarrollo. Únete a la lista de lanzamiento.",
+    "JB Launcher (gratis), JB Search (demo gratis + licencia de pago) y JB Workplace (freemium) están en desarrollo. Únete a la lista de lanzamiento.",
   alternates: {
     canonical: "/es/downloads",
     languages: { en: "/downloads", es: "/es/downloads" },
@@ -20,7 +20,7 @@ export const metadata = {
   openGraph: {
     title: "Descargas — JB Software",
     description:
-      "JB Launcher (gratis) y JB Optimizer Pro (pago único) están en desarrollo.",
+      "JB Launcher (gratis), JB Search (demo gratis + licencia de pago) y JB Workplace (freemium) están en desarrollo.",
     url: "/es/downloads",
     images: ["/og.png"],
   },
@@ -28,7 +28,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Descargas — JB Software",
     description:
-      "JB Launcher (gratis) y JB Optimizer Pro (pago único) están en desarrollo.",
+      "JB Launcher (gratis), JB Search (demo gratis + licencia de pago) y JB Workplace (freemium) están en desarrollo.",
     images: ["/og.png"],
   },
 };
@@ -52,12 +52,14 @@ export default async function DownloadsPageEs() {
             Descargas
           </p>
           <h1 className="mt-2 text-4xl font-semibold tracking-tight md:text-6xl">
-            Dos herramientas, muy pronto.
+            Tres herramientas, muy pronto.
           </h1>
           <p className="mt-4 max-w-2xl text-zinc-400">
-            JB Launcher está previsto como descarga gratuita. JB Optimizer Pro es
-            un pago único con actualizaciones de por vida. Ambos siguen en
-            desarrollo: no habrá descargas ni pagos hasta que estén listos.
+            JB Launcher es completamente gratis. JB Search incluye una demo
+            gratuita y una licencia de pago opcional. JB Workplace se puede
+            descargar gratis, con funciones Pro para flujos de trabajo
+            avanzados. Todo sigue en desarrollo: no habrá descargas ni pagos
+            hasta que esté listo.
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <p className="inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/10 px-4 py-1.5 text-xs uppercase tracking-[0.18em] text-amber-300">
@@ -74,7 +76,7 @@ export default async function DownloadsPageEs() {
       </section>
 
       <section className="px-6 pb-20">
-        <div className="mx-auto max-w-5xl">
+        <div className="mx-auto max-w-6xl">
           <DownloadGrid
             products={PRODUCTS}
             owned={owned}

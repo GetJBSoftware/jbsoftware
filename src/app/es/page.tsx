@@ -18,7 +18,7 @@ import { lhref } from "@/lib/i18n";
 export const metadata = {
   title: "JB Software — Próximamente",
   description:
-    "JB Software crea herramientas de escritorio rápidas y enfocadas para Windows. Un launcher gratuito y un optimizador de pago único están en desarrollo.",
+    "JB Software crea herramientas de escritorio rápidas y enfocadas para Windows. Una barra de comandos gratuita, un buscador local y un gestor de espacios de trabajo están en desarrollo.",
   alternates: {
     canonical: "/es",
     languages: { en: "/", es: "/es" },
@@ -49,7 +49,7 @@ export const metadata = {
 };
 
 export default function HomeEs() {
-  const featured = PRODUCTS.filter((p) => p.featured).slice(0, 2);
+  const featured = PRODUCTS.filter((p) => p.featured).slice(0, 3);
 
   return (
     <div className="bg-black text-white">
@@ -73,8 +73,9 @@ export default function HomeEs() {
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-zinc-400 md:text-xl">
             Estamos creando herramientas de escritorio rápidas y enfocadas para
-            Windows. Todo está en desarrollo: algunas herramientas serán gratis
-            y otras un pago único. Sin suscripciones.
+            Windows. Todo está en desarrollo: algunas herramientas son gratis y
+            otras añaden licencias de pago opcionales. Publicaremos los precios
+            antes del lanzamiento.
           </p>
           <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
             <Link
@@ -96,7 +97,7 @@ export default function HomeEs() {
               <Check size={13} /> Windows 10/11
             </li>
             <li className="inline-flex items-center gap-1.5">
-              <Check size={13} /> Sin suscripciones
+              <Check size={13} /> Planes gratis y de pago
             </li>
             <li className="inline-flex items-center gap-1.5">
               <Check size={13} /> Sin telemetría
@@ -124,8 +125,8 @@ export default function HomeEs() {
             },
             {
               icon: Rocket,
-              title: "Pago único",
-              body: "Las herramientas de pago son una sola compra con actualizaciones de por vida. Nunca una suscripción.",
+              title: "Precio justo",
+              body: "Empieza gratis y mejora solo cuando una función de pago lo merezca. Publicaremos los precios antes del lanzamiento.",
             },
           ].map((v) => (
             <div
@@ -148,15 +149,15 @@ export default function HomeEs() {
           <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-sm uppercase tracking-[0.3em] text-zinc-500">
-                Las dos primeras herramientas
+                Las tres primeras herramientas
               </p>
               <h2 className="mt-2 text-4xl font-semibold tracking-tight md:text-5xl">
-                Dos herramientas. Cero bloat.
+                Tres herramientas. Cero bloat.
               </h2>
               <p className="mt-3 max-w-2xl text-zinc-400">
-                Un launcher gratuito para que Windows se sienta instantáneo, y un
-                optimizador de pago único para quienes quieren que su equipo siga
-                rápido.
+                Una barra de comandos gratuita para las tareas diarias, un
+                buscador local que encuentra por contenido y un gestor de
+                espacios de trabajo que mantiene tu equipo listo para todo.
               </p>
             </div>
             <Link
@@ -167,7 +168,7 @@ export default function HomeEs() {
             </Link>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {featured.map((p) => {
               const copy = productText(p, "es");
               return (

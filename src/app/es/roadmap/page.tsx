@@ -17,7 +17,7 @@ import { lhref } from "@/lib/i18n";
 export const metadata = {
   title: "Roadmap — JB Software",
   description:
-    "Sigue lo que estamos construyendo: JB Launcher, JB Optimizer Pro y el camino hasta el lanzamiento.",
+    "Sigue lo que estamos construyendo: JB Launcher, JB Search, JB Workplace y el camino hasta el lanzamiento.",
   alternates: {
     canonical: "/es/roadmap",
     languages: { en: "/roadmap", es: "/es/roadmap" },
@@ -25,7 +25,7 @@ export const metadata = {
   openGraph: {
     title: "Roadmap — JB Software",
     description:
-      "Sigue lo que estamos construyendo: JB Launcher, JB Optimizer Pro y el camino hasta el lanzamiento.",
+      "Sigue lo que estamos construyendo: JB Launcher, JB Search, JB Workplace y el camino hasta el lanzamiento.",
     url: "/es/roadmap",
     images: ["/og.png"],
   },
@@ -33,7 +33,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Roadmap — JB Software",
     description:
-      "Sigue lo que estamos construyendo: JB Launcher, JB Optimizer Pro y el camino hasta el lanzamiento.",
+      "Sigue lo que estamos construyendo: JB Launcher, JB Search, JB Workplace y el camino hasta el lanzamiento.",
     images: ["/og.png"],
   },
 };
@@ -51,10 +51,10 @@ const milestones: Array<{
     version: "v0.1",
     title: "Núcleo del launcher",
     status: "in-progress",
-    body: "Indexación de aplicaciones, búsqueda instantánea y navegación por teclado. La base de JB Launcher.",
+    body: "Barra de comandos, acciones contextuales sobre archivos y atajos de teclado. La base de JB Launcher.",
     items: [
-      "Índice local sin telemetría",
-      "Búsqueda pensada para el teclado",
+      "Detección del archivo seleccionado",
+      "Acciones de convertir, descomprimir y limpiar",
       "Compatibilidad con Windows 10/11",
     ],
   },
@@ -66,29 +66,29 @@ const milestones: Array<{
     items: [
       "Instalador firmado para Windows",
       "Canal de actualizaciones automáticas",
-      "Ajustes de tema y atajos",
+      "Ajustes de atajos y acciones",
     ],
   },
   {
     version: "v0.3",
-    title: "Motor del optimizador",
+    title: "Motor de búsqueda y espacios de trabajo",
     status: "planned",
-    body: "Ajustes seguros y reversibles para JB Optimizer Pro, con las mismas reglas local-first.",
+    body: "Indexación semántica local para JB Search, además de cambio de espacio de trabajo y ajuste de RAM para JB Workplace.",
     items: [
-      "Limpieza reversible",
-      "Ajuste del inicio y de procesos en segundo plano",
-      "Puntos de restauración antes de los cambios",
+      "Índice local de documentos y fotos",
+      "Perfiles de espacio de trabajo con un clic",
+      "Ajuste de RAM en segundo plano",
     ],
   },
   {
     version: "v1.0",
     title: "Lanzamiento público",
     status: "planned",
-    body: "JB Launcher pasa a ser gratis. JB Optimizer Pro se pone a la venta como pago único.",
+    body: "JB Launcher pasa a ser gratis. JB Search y JB Workplace Pro se ponen a la venta con licencias de pago opcionales.",
     items: [
       "Descarga gratuita del launcher",
-      "Licencia única de Optimizer Pro",
-      "Descuento de la lista de lanzamiento",
+      "Demo de Search y licencia de pago",
+      "Workplace gratis y plan Pro",
     ],
   },
 ];
@@ -136,7 +136,7 @@ export default function RoadmapPageEs() {
       </section>
 
       <section className="px-6 pb-20">
-        <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2">
+        <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2 lg:grid-cols-3">
           {PRODUCTS.map((product) => {
             const copy = productText(product, "es");
             return (
@@ -157,7 +157,9 @@ export default function RoadmapPageEs() {
                     className={`shrink-0 rounded-full px-3 py-1 text-xs ${
                       product.type === "free"
                         ? "bg-emerald-500/10 text-emerald-400"
-                        : "bg-amber-500/10 text-amber-400"
+                        : product.type === "paid"
+                          ? "bg-amber-500/10 text-amber-400"
+                          : "bg-sky-500/10 text-sky-300"
                     }`}
                   >
                     {formatPrice(product, "es")}
@@ -250,10 +252,10 @@ export default function RoadmapPageEs() {
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6">
             <Rocket className="h-6 w-6" />
-            <h3 className="mt-4 font-medium">Pago único</h3>
+            <h3 className="mt-4 font-medium">Precio justo</h3>
             <p className="mt-2 text-sm text-zinc-400">
-              Las herramientas de pago son una sola compra. Lemon Squeezy
-              gestionará los pagos en el lanzamiento.
+              Empieza gratis y mejora solo cuando una función de pago lo
+              merezca. Lemon Squeezy gestionará los pagos en el lanzamiento.
             </p>
           </div>
         </div>
@@ -276,7 +278,8 @@ export default function RoadmapPageEs() {
               </div>
               <p className="mt-3 text-zinc-400">
                 El roadmap público y la lista de lanzamiento ya están
-                disponibles. JB Launcher y JB Optimizer Pro están en desarrollo.
+                disponibles. JB Launcher, JB Search y JB Workplace están en
+                desarrollo.
               </p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6">

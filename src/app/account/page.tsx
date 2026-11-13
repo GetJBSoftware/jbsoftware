@@ -65,8 +65,8 @@ export default async function AccountPage() {
         <div className="mt-10 rounded-2xl border border-white/10 bg-white/[0.02] p-6 text-sm text-zinc-400">
           <p className="font-medium text-white">Launch list</p>
           <p className="mt-2">
-            Join the list to get one email at launch and 50% off JB Optimizer
-            Pro.{" "}
+            Join the list to get one email at launch and 50% off your first paid
+            licence.{" "}
             <Link href="/#waitlist" className="underline hover:text-white">
               Join the launch list
             </Link>

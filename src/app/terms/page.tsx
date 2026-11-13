@@ -42,12 +42,12 @@ export default function TermsPage() {
       <section>
         <h2>Purchases</h2>
         <p>
-          Paid tools are planned as one-time purchases with lifetime updates for
-          the purchased major version, unless stated otherwise at checkout.
-          Prices and availability will be shown before you pay. Payments are
-          processed by Lemon Squeezy, which acts as merchant of record and
-          handles sales tax and VAT. Nothing on this site is a subscription
-          unless we explicitly say so.
+          Paid tools may be offered as a one-time purchase or, where clearly
+          stated at checkout, as a subscription. Prices, billing terms and
+          availability will be shown before you pay. Payments are processed by
+          Lemon Squeezy, which acts as merchant of record and handles sales tax
+          and VAT. Nothing on this site is a subscription unless we explicitly
+          say so.
         </p>
         <p>
           If a product is not delivered or is materially different from its

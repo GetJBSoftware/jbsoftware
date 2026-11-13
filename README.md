@@ -7,14 +7,15 @@ Marketing site for getjbsoftware.com.
 
 - Hero/intro landing page (logo lives in the navbar and footer)
 - Product preview for JB Launcher (concept UI, labelled as a preview)
-- `/downloads` — JB Launcher (free) and JB Optimizer Pro (one-time paid), both
-  marked "coming soon"
+- `/downloads` — JB Launcher (free), JB Search (free demo + optional paid
+  licence) and JB Workplace (freemium), all marked "coming soon"
 - `/roadmap` — public milestones and changelog
 - `/community` — bug reports and feature requests through GitHub Issues
 - Launch list — email capture stored in `WaitlistEntry`, with a planned 50%
-  launch discount for JB Optimizer Pro
+  launch discount on the first paid licence
 - Email/password sign-up and sign-in, plus optional Google sign-in
-- Paid software is a one-time purchase; download anywhere after login
+- Paid tools can be one-time or subscription purchases; download anywhere after
+  login
 - `/account` — purchases
 - `/contact` — contact page with a mailto form
 - `/privacy` and `/terms` — legal pages
@@ -37,7 +38,8 @@ Marketing site for getjbsoftware.com.
    - `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` — optional; email/password
      sign-up works without them
    - `LEMONSQUEEZY_API_KEY`, `LEMONSQUEEZY_STORE_ID`,
-     `LEMONSQUEEZY_VARIANT_JB_OPTIMIZER`, `LEMONSQUEEZY_WEBHOOK_SECRET`
+     `LEMONSQUEEZY_VARIANT_JB_SEARCH`, `LEMONSQUEEZY_VARIANT_JB_WORKPLACE`,
+     `LEMONSQUEEZY_WEBHOOK_SECRET`
    - `CONTACT_EMAIL` — address shown on the contact page
 
 3. Database
@@ -67,11 +69,11 @@ is hidden automatically when those variables are missing.
 ## Payments (Lemon Squeezy)
 
 Lemon Squeezy is the merchant of record, so it handles global sales tax and VAT
-for one-time software sales. To enable checkout:
+for software sales. To enable checkout:
 
-1. Create a store and a one-time product for JB Optimizer Pro.
-2. Copy the store ID and the variant ID into `LEMONSQUEEZY_STORE_ID` and
-   `LEMONSQUEEZY_VARIANT_JB_OPTIMIZER`.
+1. Create a store and paid variants for JB Search and JB Workplace Pro.
+2. Copy the store ID and the variant IDs into `LEMONSQUEEZY_STORE_ID`,
+   `LEMONSQUEEZY_VARIANT_JB_SEARCH` and `LEMONSQUEEZY_VARIANT_JB_WORKPLACE`.
 3. Create an API key and set `LEMONSQUEEZY_API_KEY`.
 4. Create a webhook pointing to `https://your-domain.com/api/webhooks/lemonsqueezy`
    with the `order_created` and `order_refunded` events. Set the signing secret
@@ -86,7 +88,9 @@ configured. Products also stay marked `coming-soon` until a real build exists.
 
 All products live in `src/lib/products.ts`. They currently use
 `status: "coming-soon"`, so the UI shows "Coming soon" instead of download and
-buy buttons. When a build is ready:
+buy buttons. Product types are `free`, `trial` (free demo + optional paid
+licence), `freemium` (free app + Pro features) and `paid`. When a build is
+ready:
 
 1. Add its `downloadUrl` (and optional `githubRelease`).
 2. Set `status: "available"`.

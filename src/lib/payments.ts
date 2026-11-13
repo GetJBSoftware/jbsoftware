@@ -12,7 +12,8 @@ export const isLemonSqueezyConfigured = Boolean(
 );
 
 const variantIds: Record<string, string | undefined> = {
-  "jb-optimizer": process.env.LEMONSQUEEZY_VARIANT_JB_OPTIMIZER,
+  "jb-search": process.env.LEMONSQUEEZY_VARIANT_JB_SEARCH,
+  "jb-workplace": process.env.LEMONSQUEEZY_VARIANT_JB_WORKPLACE,
 };
 
 export function getCheckoutVariantId(slug: string) {

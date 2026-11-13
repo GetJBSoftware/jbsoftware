@@ -81,8 +81,8 @@ export default function CommunityPageEs() {
             <Lightbulb className="h-6 w-6 text-zinc-300" />
             <h2 className="mt-4 text-xl font-medium">Pide una función</h2>
             <p className="mt-2 text-sm text-zinc-400">
-              ¿Tienes una idea que mejoraría el launcher o el optimizador?
-              Describe el problema que quieres resolver.
+              ¿Tienes una idea que mejoraría JB Launcher, JB Search o JB
+              Workplace? Describe el problema que quieres resolver.
             </p>
             <span className="mt-5 inline-flex items-center gap-2 text-sm text-zinc-300 group-hover:text-white">
               Sugerir una función <ArrowRight size={15} />

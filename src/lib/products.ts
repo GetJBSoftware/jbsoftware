@@ -1,6 +1,12 @@
 import type { Lang } from "@/lib/i18n";
 
-export type ProductType = "free" | "paid";
+/**
+ * - free: fully free download
+ * - trial: free demo with an optional paid licence
+ * - freemium: free app with optional Pro features
+ * - paid: paid only
+ */
+export type ProductType = "free" | "trial" | "freemium" | "paid";
 export type ProductStatus = "coming-soon" | "available";
 
 export interface Product {
@@ -27,34 +33,37 @@ export interface Product {
 }
 
 /**
- * Roadmap products.
+ * Product catalogue.
  *
- * Everything here is still in development. Some tools are planned to be free,
- * others will be a one-time purchase. Update this list as products get closer
- * to launch and flip `status` to "available" when a build is ready.
+ * Everything here is still in development. JB Launcher is fully free, JB Search
+ * offers a free demo with an optional paid licence, and JB Workplace is
+ * freemium. Update this list as products get closer to launch and flip `status`
+ * to "available" when a build is ready.
  *
- * Keep this list focused. Two clear products convert better than a long list
- * of concepts, so JB Backup and JB Studio stay hidden until they are real.
+ * Keep this list focused on real products. Ideas that are not being built stay
+ * out of the catalogue.
  */
 export const PRODUCTS: Product[] = [
   {
     slug: "jb-launcher",
     name: "JB Launcher",
-    description: "A fast, minimal application launcher for Windows.",
+    description:
+      "A command bar for fast file conversions and contextual actions.",
     longDescription:
-      "Index your apps, files and commands, then open anything in milliseconds. Built for speed, privacy and zero telemetry.",
-    descriptionEs: "Un launcher de aplicaciones rápido y minimalista para Windows.",
+      "Select a file, press the shortcut and unzip, convert or clean it without opening another app. JB Launcher detects what you have selected and puts the right action one keystroke away.",
+    descriptionEs:
+      "Una barra de comandos para convertir archivos y ejecutar acciones contextuales al instante.",
     longDescriptionEs:
-      "Indexa tus aplicaciones, archivos y comandos y abre cualquier cosa en milisegundos. Pensado para la velocidad, la privacidad y cero telemetría.",
+      "Selecciona un archivo, pulsa el atajo y descomprime, convierte o limpia sin abrir otra aplicación. JB Launcher detecta lo que has seleccionado y pone la acción adecuada a una pulsación.",
     highlights: [
-      "Instant search across apps, files and commands",
-      "Keyboard-first, no mouse required",
-      "No account, no telemetry, no background noise",
+      "Works with whatever you have selected",
+      "Unzip, convert and clean from one command bar",
+      "Lightweight, local-first and free",
     ],
     highlightsEs: [
-      "Búsqueda instantánea de apps, archivos y comandos",
-      "Pensado para el teclado, sin necesidad de ratón",
-      "Sin cuenta, sin telemetría y sin ruido de fondo",
+      "Funciona con lo que tengas seleccionado",
+      "Descomprime, convierte y limpia desde una sola barra",
+      "Ligero, local-first y gratis",
     ],
     price: 0,
     currency: "usd",
@@ -64,28 +73,57 @@ export const PRODUCTS: Product[] = [
     featured: true,
   },
   {
-    slug: "jb-optimizer",
-    name: "JB Optimizer Pro",
-    description: "One-click system tuning and cleanup for maximum performance.",
+    slug: "jb-search",
+    name: "JB Search",
+    description:
+      "Local semantic search across the content inside your files and photos.",
     longDescription:
-      "Remove bloat, tune services and schedule maintenance without digging through settings. One-time purchase with lifetime updates.",
+      "Stop hunting through messy folders and generic filenames. JB Search indexes your documents and photos locally and finds them by what they contain, not just their titles. Try the free demo, then choose a one-time or subscription licence if it earns a place in your workflow.",
     descriptionEs:
-      "Optimización y limpieza del sistema con un clic para el máximo rendimiento.",
+      "Búsqueda semántica local por el contenido de tus archivos y fotos.",
     longDescriptionEs:
-      "Elimina el bloat, ajusta servicios y programa el mantenimiento sin bucear entre ajustes. Compra única con actualizaciones de por vida.",
+      "Deja de buscar entre carpetas desordenadas y nombres genéricos. JB Search indexa tus documentos y fotos en local y los encuentra por lo que contienen, no solo por su título. Prueba la demo gratis y después elige una licencia de pago único o una suscripción si se gana un hueco en tu flujo de trabajo.",
     highlights: [
-      "Safe, reversible system cleanup",
-      "Startup and background-process tuning",
-      "One-time price, lifetime updates, no subscription",
+      "Search by content, not just filename",
+      "Works with documents and photos",
+      "Free demo, then a one-time or subscription licence",
     ],
     highlightsEs: [
-      "Limpieza segura y reversible del sistema",
-      "Ajuste del inicio y de los procesos en segundo plano",
-      "Pago único, actualizaciones de por vida y sin suscripción",
+      "Busca por contenido, no solo por el nombre",
+      "Funciona con documentos y fotos",
+      "Demo gratis y licencia de pago único o suscripción",
     ],
-    price: 1900,
+    price: 0,
     currency: "usd",
-    type: "paid",
+    type: "trial",
+    status: "coming-soon",
+    platform: "Windows 10/11",
+    featured: true,
+  },
+  {
+    slug: "jb-workplace",
+    name: "JB Workplace",
+    description:
+      "A workspace switcher and dynamic RAM optimizer in one command center.",
+    longDescription:
+      "Launch everything you need for coding, designing or gaming with a single click. JB Workplace switches your app environment, frees RAM in the background and brings the rest of the JB ecosystem into one place. Download it free with the essentials included, then unlock deeper automation with Pro.",
+    descriptionEs:
+      "Un gestor de espacios de trabajo y optimización dinámica de RAM en un solo centro de mando.",
+    longDescriptionEs:
+      "Lanza todo lo que necesitas para programar, diseñar o jugar con un solo clic. JB Workplace cambia tu entorno de aplicaciones, libera RAM en segundo plano y reúne el resto del ecosistema JB en un solo lugar. Descárgalo gratis con las funciones esenciales y desbloquea una automatización más profunda con Pro.",
+    highlights: [
+      "One-click workspace presets",
+      "Background RAM tuning to avoid slowdowns",
+      "Free essentials, with Pro automation when you need it",
+    ],
+    highlightsEs: [
+      "Perfiles de espacio de trabajo con un clic",
+      "Ajuste de RAM en segundo plano para evitar caídas",
+      "Funciones esenciales gratis y automatización Pro cuando la necesites",
+    ],
+    price: 0,
+    currency: "usd",
+    type: "freemium",
     status: "coming-soon",
     platform: "Windows 10/11",
     featured: true,
@@ -97,9 +135,18 @@ export function getProduct(slug: string) {
 }
 
 export function formatPrice(product: Product, lang: Lang = "en") {
-  if (product.type === "free") return lang === "es" ? "Gratis" : "Free";
-  const amount = `$${(product.price / 100).toFixed(0)}`;
-  return lang === "es" ? `${amount} pago único` : `${amount} one-time`;
+  switch (product.type) {
+    case "free":
+      return lang === "es" ? "Gratis" : "Free";
+    case "trial":
+      return lang === "es" ? "Demo gratis" : "Free demo";
+    case "freemium":
+      return "Freemium";
+    case "paid": {
+      const amount = `$${(product.price / 100).toFixed(0)}`;
+      return lang === "es" ? `${amount} pago único` : `${amount} one-time`;
+    }
+  }
 }
 
 /** Returns the product copy in the requested language. */

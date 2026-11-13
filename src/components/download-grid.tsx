@@ -49,7 +49,7 @@ export function DownloadGrid({
   }
 
   return (
-    <div className="grid gap-6 md:grid-cols-2">
+    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {products.map((p) => {
         const isOwned = owned.includes(p.slug);
         const loading = busy === p.slug;
@@ -68,7 +68,9 @@ export function DownloadGrid({
                 className={`rounded-full px-2 py-1 text-xs ${
                   p.type === "free"
                     ? "bg-emerald-500/10 text-emerald-400"
-                    : "bg-amber-500/10 text-amber-400"
+                    : p.type === "paid"
+                      ? "bg-amber-500/10 text-amber-400"
+                      : "bg-sky-500/10 text-sky-300"
                 }`}
               >
                 {formatPrice(p, lang)}
@@ -103,13 +105,13 @@ export function DownloadGrid({
                 >
                   <Clock size={16} /> {d.comingSoon}
                 </button>
-              ) : p.type === "free" ? (
+              ) : p.type !== "paid" ? (
                 <a
                   href={`/api/download/${p.slug}`}
                   className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 font-medium text-black transition hover:bg-zinc-200"
                 >
                   <Download size={16} />
-                  {d.downloadFree}
+                  {p.type === "trial" ? d.downloadDemo : d.downloadFree}
                 </a>
               ) : isOwned ? (
                 <a

@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Downloads — JB Software",
   description:
-    "JB Launcher (free) and JB Optimizer Pro (one-time purchase) are in development. Join the launch list.",
+    "JB Launcher (free), JB Search (free demo + paid licence) and JB Workplace (freemium) are in development. Join the launch list.",
   alternates: {
     canonical: "/downloads",
     languages: { en: "/downloads", es: "/es/downloads" },
@@ -37,12 +37,13 @@ export default async function DownloadsPage() {
             Downloads
           </p>
           <h1 className="mt-2 text-4xl font-semibold tracking-tight md:text-6xl">
-            Two tools, shipping soon.
+            Three tools, shipping soon.
           </h1>
           <p className="mt-4 max-w-2xl text-zinc-400">
-            JB Launcher is planned as a free download. JB Optimizer Pro is a
-            one-time purchase with lifetime updates. Both are still in
-            development — no downloads or payments until they are ready.
+            JB Launcher is completely free. JB Search includes a free demo and
+            an optional paid licence. JB Workplace is free to download, with Pro
+            features for advanced workflows. Everything is still in development
+            — no downloads or payments until it is ready.
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <p className="inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/10 px-4 py-1.5 text-xs uppercase tracking-[0.18em] text-amber-300">
@@ -59,7 +60,7 @@ export default async function DownloadsPage() {
       </section>
 
       <section className="px-6 pb-20">
-        <div className="mx-auto max-w-5xl">
+        <div className="mx-auto max-w-6xl">
           <DownloadGrid
             products={PRODUCTS}
             owned={owned}
